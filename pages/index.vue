@@ -1,6 +1,7 @@
 <template lang="pug">
-  .container
-    h1 {{ welcome }}
+  .container 
+    h1 Lorem
+
 </template>
 
 

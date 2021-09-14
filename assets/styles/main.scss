@@ -36,3 +36,15 @@ a {
     margin: 0 30px;
   }
 }
+
+.only-desktop {
+  @include mw(1024px) {
+    display: none !important;
+  }
+}
+
+.only-not-desktop {
+  @include mw(1024px, min) {
+    display: none !important;
+  }
+}
