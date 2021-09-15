@@ -4,6 +4,9 @@
     div
       nuxt
     Footer
+
+    DrawerList
+    ModalList
 </template>
 
 <style lang="scss" scoped>

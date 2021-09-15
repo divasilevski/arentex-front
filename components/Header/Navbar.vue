@@ -1,5 +1,5 @@
 <template lang="pug">
-  nav.navbar
+  nav.navbar(ref="navbarRef")
     .container
       nuxt-link(to="/")
         img.logo(src="~/assets/icons/logo.svg")
@@ -9,24 +9,33 @@
           :key="item.link"
           :to="item.link") {{ item.title }}
         .menu__item
-          .menu__icon
+          .menu__icon(@click="openBasket")
             img(src="~/assets/icons/basket.svg")
         .menu__item.search
-          .menu__icon
+          .menu__icon(@click="openSearch")
             img(src="~/assets/icons/search.svg")
         .menu__item.only-not-desktop
-          .menu__icon
+          .menu__icon(@click="openMenu")
             img(src="~/assets/icons/menu.svg")
 
 </template>
 
 <script>
-import { defineComponent } from '@vue/composition-api'
+import { defineComponent, useStore, ref } from '@nuxtjs/composition-api'
 import { menu } from '~/assets/scripts/menu.js'
 
 export default defineComponent({
   setup() {
-    return { menu }
+    const navbarRef = ref(null)
+    const store = useStore()
+    const toggleMethod = () => {
+      const isDesktop = navbarRef.value.offsetWidth > 1023
+      return isDesktop ? 'toggleModal' : 'toggleDrawer'
+    }
+    const openMenu = () => store.commit('toggleDrawer', 'menu')
+    const openBasket = () => store.commit(toggleMethod(), 'basket')
+    const openSearch = () => store.commit(toggleMethod(), 'search')
+    return { menu, openMenu, openBasket, openSearch, navbarRef }
   },
 })
 </script>
