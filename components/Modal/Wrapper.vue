@@ -5,7 +5,7 @@
       .modal__panel
         .close(@click="closeHandler")
           img(src="~/assets/icons/close-black.svg")
-        slot
+        slot(:closeHandler="closeHandler")
 </template>
 
 <script>

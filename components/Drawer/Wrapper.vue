@@ -4,11 +4,11 @@
       .drawer__bg(@click="closeHandler")
       .drawer__panel
         .drawer__header
-          nuxt-link(to="/")
+          nuxt-link(to="/" @click.native="closeHandler")
             img.logo(src="~/assets/icons/logo.svg")
           .close(@click="closeHandler")
             img(src="~/assets/icons/close.svg")
-        slot
+        slot(:closeHandler="closeHandler")
 </template>
 
 <script>
@@ -54,7 +54,12 @@ export default defineComponent({
       }
     })
 
-    return { drawerRef, closeHandler, isShowContent }
+    return {
+      drawerRef,
+      closeHandler,
+      isShowContent,
+      log: () => console.log('x'),
+    }
   },
 })
 </script>
