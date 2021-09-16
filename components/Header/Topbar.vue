@@ -2,13 +2,13 @@
   .topbar.only-desktop
     .container
       .contacts
-        img(src="~/assets/icons/tel.svg")
+        img.icon(src="~/assets/icons/tel.svg" alt="TelIcon")
         a(href="tel:88005553535") 8 (800) 555-35-35
         .diviator
         a(href="mailto:info@arentex.ru") info@arentex.ru
 
       .login
-        img(src="~/assets/icons/login.svg")
+        img.icon(src="~/assets/icons/login.svg" alt="LoginIcon")
         | Войти / Регистрация
 </template>
 

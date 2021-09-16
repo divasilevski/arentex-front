@@ -4,7 +4,7 @@
       .modal__bg(@click="closeHandler")
       .modal__panel
         .close(@click="closeHandler")
-          img(src="~/assets/icons/close-black.svg")
+          img.icon(src="~/assets/icons/close-black.svg" alt="CloseIcon")
         slot(:closeHandler="closeHandler")
 </template>
 

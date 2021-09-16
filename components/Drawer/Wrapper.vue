@@ -5,9 +5,9 @@
       .drawer__panel
         .drawer__header
           nuxt-link(to="/" @click.native="closeHandler")
-            img.logo(src="~/assets/icons/logo.svg")
+            img.logo(src="~/assets/icons/logo.svg" alt="Arentex")
           .close(@click="closeHandler")
-            img(src="~/assets/icons/close.svg")
+            img.icon(src="~/assets/icons/close.svg" alt="CloseIcon")
         slot(:closeHandler="closeHandler")
 </template>
 
@@ -131,9 +131,11 @@ $duration: 0.3s;
 
     .logo {
       height: 25px;
+      width: 140px;
 
       @include mw(500px) {
         height: 18px;
+        width: 100px;
       }
     }
 

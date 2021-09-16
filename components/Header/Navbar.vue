@@ -2,7 +2,7 @@
   nav.navbar(ref="navbarRef")
     .container
       nuxt-link(to="/")
-        img.logo(src="~/assets/icons/logo.svg")
+        img.logo(src="~/assets/icons/logo.svg" alt="Arentex")
       .menu
         nuxt-link.menu__link.only-desktop(
           v-for="item in menu"
@@ -10,13 +10,13 @@
           :to="item.link") {{ item.title }}
         .menu__item
           .menu__icon(@click="openBasket")
-            img(src="~/assets/icons/basket.svg")
+            img.icon(src="~/assets/icons/basket.svg" alt="BasketIcon")
         .menu__item.search
           .menu__icon(@click="openSearch")
-            img(src="~/assets/icons/search.svg")
+            img.icon(src="~/assets/icons/search.svg" alt="SearchIcon")
         .menu__item.only-not-desktop
           .menu__icon(@click="openMenu")
-            img(src="~/assets/icons/menu.svg")
+            img.icon(src="~/assets/icons/menu.svg" alt="MenuIcon")
 
 </template>
 
@@ -58,9 +58,11 @@ export default defineComponent({
 
     .logo {
       height: 35px;
+      width: 196px;
 
       @include mw(500px) {
         height: 18px;
+        width: 100px;
       }
     }
 

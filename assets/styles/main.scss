@@ -48,3 +48,16 @@ a {
     display: none !important;
   }
 }
+
+.page {
+  padding: 90px 0;
+
+  @include mw(719px) {
+    padding: 60px 0;
+  }
+}
+
+.icon {
+  width: 22px;
+  height: 22px;
+}

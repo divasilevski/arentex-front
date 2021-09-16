@@ -2,7 +2,7 @@
   DrawerWrapper(name="menu" v-slot="{ closeHandler }")
     .drawer-menu
       .drawer-menu__login(@click="closeHandler")
-        img(src="~/assets/icons/login.svg")
+        img.icon(src="~/assets/icons/login.svg" alt="LoginIcon")
         | Войти / Регистрация
       nuxt-link.drawer-menu__link(
         @click.native="closeHandler"
@@ -11,7 +11,7 @@
         :to="item.link") {{ item.title }}
 
       .drawer-menu__contacts
-        img(src="~/assets/icons/tel.svg")
+        img.icon(src="~/assets/icons/tel.svg" alt="TelIcon")
         a(href="tel:88005553535") 8 (800) 555-35-35
         .diviator
         a(href="mailto:info@arentex.ru") info@arentex.ru
