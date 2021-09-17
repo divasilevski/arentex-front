@@ -24,6 +24,65 @@ a {
   text-decoration: none;
 }
 
+h1 {
+  font-size: 42px;
+  line-height: 42px;
+
+  @include mw(719px) {
+    font-size: 32px;
+    line-height: 36px;
+  }
+}
+
+h2 {
+  font-size: 32px;
+  line-height: 36px;
+
+  @include mw(719px) {
+    font-size: 24px;
+    line-height: 28px;
+  }
+}
+
+h3 {
+  font-size: 24px;
+  line-height: 28px;
+
+  @include mw(719px) {
+    font-size: 20px;
+    line-height: 24px;
+  }
+}
+
+.h1,
+.h2 {
+  margin-top: 60px;
+
+  @include mw(719px) {
+    margin-top: 40px;
+  }
+}
+
+.h3 {
+  margin-top: 40px;
+
+  @include mw(719px) {
+    margin-top: 30px;
+  }
+}
+
+p {
+  font-size: 16px;
+  line-height: 22px;
+  margin-top: 16px;
+
+  @include mw(719px) {
+    font-size: 14px;
+    line-height: 20px;
+    margin-top: 10px;
+  }
+}
+
 .container {
   margin: 0 auto;
   max-width: 1180px;
@@ -60,4 +119,14 @@ a {
 .icon {
   width: 22px;
   height: 22px;
+}
+
+.link {
+  box-shadow: 0px 0px 0px var(--white), 0px 1px 0px var(--main);
+
+  &:hover {
+    transition: 0.3s;
+    color: var(--accent);
+    box-shadow: 0px 0px 0px var(--white), 0px 1px 0px var(--accent);
+  }
 }

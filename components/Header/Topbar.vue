@@ -3,14 +3,25 @@
     .container
       .contacts
         img.icon(src="~/assets/icons/tel.svg" alt="TelIcon")
-        a(href="tel:88005553535") 8 (800) 555-35-35
+        span(v-html="contacts.tel")
         .diviator
-        a(href="mailto:info@arentex.ru") info@arentex.ru
+        span(v-html="contacts.email")
 
       .login
         img.icon(src="~/assets/icons/login.svg" alt="LoginIcon")
         | Войти / Регистрация
 </template>
+
+<script>
+import { defineComponent } from '@vue/composition-api'
+import { contacts } from '~/assets/scripts/contacts.js'
+
+export default defineComponent({
+  setup() {
+    return { contacts }
+  },
+})
+</script>
 
 <style lang="scss" scoped>
 .topbar {
