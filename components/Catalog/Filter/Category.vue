@@ -36,6 +36,10 @@ export default defineComponent({
 .category {
   position: relative;
 
+  a:hover {
+    color: var(--accent);
+  }
+
   .category__item {
     display: flex;
     justify-content: space-between;

@@ -8,7 +8,7 @@
         :category="category")
 
     .catalog-filter__item
-      .catalog-filter__title Цена
+      .catalog-filter__title Цена за день
       CatalogFilterPrice
 </template>
 

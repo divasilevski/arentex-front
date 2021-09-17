@@ -8,11 +8,14 @@
       :min="min"
       :max="max"
       lazy)
+    .price-filter__inputs
+      UIInput(v-model.number="price[0]" type="number" :min="min" :max="max")
+      UIInput(v-model.number="price[1]" type="number" :min="min" :max="max")
 
 </template>
 
 <script>
-import { defineComponent } from '@vue/composition-api'
+import { defineComponent, ref } from '@vue/composition-api'
 
 import VueSlider from 'vue-slider-component/dist-css/vue-slider-component.umd.min.js'
 import 'vue-slider-component/dist-css/vue-slider-component.css'
@@ -32,7 +35,7 @@ export default defineComponent({
   },
   setup(props) {
     return {
-      price: [props.min, props.max],
+      price: ref([props.min, props.max]),
     }
   },
 })
@@ -48,6 +51,17 @@ export default defineComponent({
   }
   .vue-slider ::v-deep .vue-slider-dot-handle {
     box-shadow: 0px 0px 4px 0px rgb(0 0 0 / 32%);
+  }
+
+  .price-filter__inputs {
+    display: flex;
+    justify-content: space-between;
+    margin: 10px -10px 0;
+
+    .input {
+      width: 100%;
+      margin: 0 10px;
+    }
   }
 }
 </style>
