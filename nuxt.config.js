@@ -21,7 +21,7 @@ export default {
   },
 
   // Plugins to run before rendering page: https://go.nuxtjs.dev/config-plugins
-  plugins: ['~/plugins/collapse.directive.js'],
+  plugins: ['~/plugins/click-outside.directive.js', '~/plugins/collapse.directive.js'],
 
   // Auto import components: https://go.nuxtjs.dev/config-components
   components: true,

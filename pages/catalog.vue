@@ -1,31 +1,32 @@
 <template lang="pug">
   .page.catalog.container
-    .catalog__top
+    h1 Каталог
+    //- CatalogTags
     .catalog__main
       CatalogFilter
-      .catalog-grid
-        .catalog-grid__sort
-          | Популярные  |  Новинки  |  Сначала Дешёвые  |  Сначала Дорогие
+      .catalog__grid
+        CatalogSort
         CatalogGrid
-        .catalog-grid__pagination
-          | ЗАГРУЗИТЬ ЕЩЁ
+
 </template>
 
 <style lang="scss" scoped>
 .catalog {
-  .catalog__top {
-  }
   .catalog__main {
     display: flex;
+
+    @include mw(950px) {
+      flex-direction: column;
+    }
   }
 
-  .catalog__filters {
-    width: 500px;
-  }
-
-  .catalog-grid {
-    margin-left: 20px;
+  .catalog__grid {
+    margin-left: 40px;
     width: 100%;
+
+    @include mw(950px) {
+      margin-left: unset;
+    }
   }
 
   .catalog-grid__sort {
@@ -33,12 +34,6 @@
     justify-content: center;
     padding-bottom: 30px;
     cursor: pointer;
-  }
-
-  .catalog-grid__pagination {
-    display: flex;
-    justify-content: center;
-    padding-top: 30px;
   }
 }
 </style>

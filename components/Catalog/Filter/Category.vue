@@ -58,6 +58,7 @@ export default defineComponent({
       height: 16px;
       transition: transform 0.2s;
       transform: rotate(-90deg);
+      user-select: none;
 
       &.open {
         transform: rotate(0deg);

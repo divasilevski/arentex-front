@@ -109,10 +109,10 @@ p {
 }
 
 .page {
-  padding: 90px 0;
+  padding: 70px 0;
 
   @include mw(719px) {
-    padding: 60px 0;
+    padding: 40px 0;
   }
 }
 

@@ -19,7 +19,7 @@
 .catalog-grid {
   display: grid;
   width: 100%;
-  grid-template-columns: 1fr 1fr 1fr;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
   grid-column-gap: 20px;
   grid-row-gap: 20px;
 }
