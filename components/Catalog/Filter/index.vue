@@ -1,8 +1,9 @@
 <template lang="pug">
-  .catalog-filter(:class="{open: filters}")
+  .catalog-filter(:class="{ open: filters }")
     .catalog-filter__header(@click="filters = !filters") Фильтры
       .filter-icon
         img(src="~/assets/icons/filter.svg" alt="FilterIcon")
+
     .catalog-filter__items
       .catalog-filter__item
         .catalog-filter__title Категория
@@ -10,6 +11,7 @@
           v-for="category in categories"
           :key="'category-' + category.id"
           :category="category")
+
       .catalog-filter__item
         .catalog-filter__title Цена за день
         CatalogFilterPrice
@@ -55,16 +57,14 @@ export default defineComponent({
 <style lang="scss" scoped>
 .catalog-filter {
   width: 100%;
-  max-width: 250px;
-
-  @include mw(950px) {
-    max-width: unset;
-    margin-top: 20px;
-  }
 
   &.open {
     .catalog-filter__items {
-      display: block !important;
+      display: block;
+    }
+
+    .catalog-filter__header .filter-icon {
+      transform: rotate(0deg);
     }
   }
 
@@ -96,6 +96,8 @@ export default defineComponent({
       display: flex;
       justify-content: center;
       align-items: center;
+      transition: 0.3s;
+      transform: rotate(-180deg);
       width: 16px;
       height: 16px;
 
@@ -107,8 +109,6 @@ export default defineComponent({
   }
 
   .catalog-filter__items {
-    margin-top: 36px;
-
     @include mw(950px) {
       display: none;
       margin-top: 0;
@@ -119,10 +119,11 @@ export default defineComponent({
       padding-bottom: 20px;
 
       .catalog-filter__title {
-        text-transform: uppercase;
+        position: relative;
         font-weight: 500;
-        font-size: 16px;
-        padding-bottom: 10px;
+        font-size: 20px;
+        line-height: 20px;
+        margin-bottom: 15px;
       }
     }
   }

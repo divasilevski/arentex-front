@@ -40,7 +40,7 @@ export default defineComponent({
     align-items: center;
     justify-content: center;
 
-    @include mw(650px) {
+    @include mw(950px) {
       display: none;
     }
 
@@ -80,7 +80,7 @@ export default defineComponent({
   .catalog-sort__select {
     display: none;
 
-    @include mw(650px) {
+    @include mw(950px) {
       display: block;
     }
   }

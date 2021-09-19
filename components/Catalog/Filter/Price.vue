@@ -52,6 +52,9 @@ export default defineComponent({
   .vue-slider ::v-deep .vue-slider-dot-handle {
     box-shadow: 0px 0px 4px 0px rgb(0 0 0 / 32%);
   }
+  .vue-slider {
+    padding: 7px 5px !important;
+  }
 
   .price-filter__inputs {
     display: flex;

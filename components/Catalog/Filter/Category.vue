@@ -3,7 +3,10 @@
     .category__item
       nuxt-link(:to="`?category=${category.id}`") {{ category.title }}
       .category__more(v-if="category.subs" @click="togglePanel")
-        img.small-icon(:class="{open: panel}" src="~/assets/icons/arrow.svg" alt="OpenSubcategoryIcon")
+        img.small-icon(
+          :class="{ open: panel }"
+          src="~/assets/icons/arrow.svg"
+          alt="OpenSubcategoryIcon")
 
     .category__panel(v-if="category.subs" v-collapse:200="panel")
       nuxt-link.subcategory(
@@ -46,12 +49,18 @@ export default defineComponent({
     align-items: center;
     height: 30px;
     font-size: 16px;
+
+    a {
+      display: flex;
+      align-items: center;
+      height: 30px;
+    }
   }
 
   .category__more {
     position: relative;
     cursor: pointer;
-    margin-top: 2px;
+    margin-top: 6px;
 
     .small-icon {
       width: 16px;
@@ -70,12 +79,12 @@ export default defineComponent({
         z-index: -1;
         position: absolute;
         content: ' ';
-        width: 22px;
-        height: 22px;
-        border-radius: 22px;
+        width: 26px;
+        height: 26px;
+        border-radius: 26px;
         background: var(--light-gray);
-        top: -2px;
-        left: -3px;
+        top: -4px;
+        left: -5px;
       }
     }
   }
@@ -87,9 +96,10 @@ export default defineComponent({
     overflow: hidden;
 
     .subcategory {
-      display: block;
-      height: 24px;
-      font-size: 14px;
+      display: flex;
+      align-items: center;
+      height: 30px;
+      font-size: 16px;
       width: fit-content;
     }
   }
