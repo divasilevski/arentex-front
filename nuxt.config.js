@@ -15,13 +15,21 @@ export default {
   },
 
   // Global CSS: https://go.nuxtjs.dev/config-css
-  css: ['~/assets/styles/variables.scss', '~/assets/styles/main.scss'],
+  css: [
+    'vue-slider-component/dist-css/vue-slider-component.css',
+    'vue-slider-component/theme/default.css',
+    '~/assets/styles/variables.scss',
+    '~/assets/styles/main.scss',
+  ],
   styleResources: {
     scss: ['~/assets/styles/mixins.scss'],
   },
 
   // Plugins to run before rendering page: https://go.nuxtjs.dev/config-plugins
-  plugins: ['~/plugins/click-outside.directive.js', '~/plugins/collapse.directive.js'],
+  plugins: [
+    '~/plugins/click-outside.directive.js',
+    '~/plugins/collapse.directive.js',
+  ],
 
   // Auto import components: https://go.nuxtjs.dev/config-components
   components: true,
