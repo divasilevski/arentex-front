@@ -1,7 +1,7 @@
 <template lang="pug">
   #app
     Header
-    div
+    .content
       nuxt
     Footer
 
@@ -11,8 +11,12 @@
 
 <style lang="scss" scoped>
 #app {
-  display: grid;
-  height: 100vh;
-  grid-template-rows: auto 1fr;
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+
+  .content {
+    flex: 1;
+  }
 }
 </style>
