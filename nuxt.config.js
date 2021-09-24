@@ -16,6 +16,7 @@ export default {
 
   // Global CSS: https://go.nuxtjs.dev/config-css
   css: [
+    'vue-slick-carousel/dist/vue-slick-carousel.css',
     'vue-slider-component/dist-css/vue-slider-component.css',
     'vue-slider-component/theme/default.css',
     '~/assets/styles/variables.scss',
@@ -29,6 +30,7 @@ export default {
   plugins: [
     '~/plugins/click-outside.directive.js',
     '~/plugins/collapse.directive.js',
+    './plugins/vue-slick-carousel.js',
   ],
 
   // Auto import components: https://go.nuxtjs.dev/config-components
