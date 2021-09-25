@@ -31,6 +31,7 @@ export default {
     '~/plugins/click-outside.directive.js',
     '~/plugins/collapse.directive.js',
     './plugins/vue-slick-carousel.js',
+    { src: './plugins/vue-calendar.js', ssr: false },
   ],
 
   // Auto import components: https://go.nuxtjs.dev/config-components

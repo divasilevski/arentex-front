@@ -1,6 +1,6 @@
 <template lang="pug">
   .product-carousel
-    VueSlickCarousel(:focusOnSelect="true" v-bind="options")
+    VueSlickCarousel.swiper(v-bind="swiper")
       .slide(v-for="(slide, index) in slides" :key="index")
         img(:src="slide" draggable="false")
 
@@ -14,7 +14,7 @@ export default defineComponent({
   setup() {},
   data() {
     return {
-      options: {
+      swiper: {
         dots: true,
         arrows: false,
         infinite: true,
@@ -40,19 +40,24 @@ export default defineComponent({
 .product-carousel {
   position: relative;
   overflow: hidden;
-  height: 400px;
-  width: 100%;
 
-  .slide {
-    cursor: pointer;
-    user-select: none;
+  .swiper {
+    position: relative;
+    overflow: hidden;
+    height: 400px;
     width: 100%;
-    height: 100%;
 
-    img {
+    .slide {
+      cursor: pointer;
+      user-select: none;
       width: 100%;
-      height: 400px;
-      object-fit: cover;
+      height: 100%;
+
+      img {
+        width: 100%;
+        height: 400px;
+        object-fit: cover;
+      }
     }
   }
 
