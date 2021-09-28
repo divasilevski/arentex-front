@@ -1,6 +1,6 @@
 <template lang="pug">
   client-only
-    DatePicker(v-model="range" is-range :columns="2")
+    DatePicker.product-calendar(v-model="range" is-range :columns="2")
 </template>
 
 <script>

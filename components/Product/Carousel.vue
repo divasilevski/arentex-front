@@ -1,6 +1,6 @@
 <template lang="pug">
   .product-carousel
-    VueSlickCarousel.swiper(v-bind="swiper")
+    agile.swiper
       .slide(v-for="(slide, index) in slides" :key="index")
         img(:src="slide" draggable="false")
 
@@ -14,14 +14,6 @@ export default defineComponent({
   setup() {},
   data() {
     return {
-      swiper: {
-        dots: true,
-        arrows: false,
-        infinite: true,
-        slidesToShow: 1,
-        slidesToScroll: 1,
-        dotsClass: 'slick-dots custom-dot-class',
-      },
       slides: [
         'https://images.unsplash.com/photo-1453831362806-3d5577f014a4?ixlib=rb-1.2.1&q=85&fm=jpg&crop=entropy&cs=srgb&w=1600&fit=max&ixid=eyJhcHBfaWQiOjE0NTg5fQ',
         'https://images.unsplash.com/photo-1496412705862-e0088f16f791?ixlib=rb-1.2.1&q=85&fm=jpg&crop=entropy&cs=srgb&w=1600&fit=max&ixid=eyJhcHBfaWQiOjE0NTg5fQ',
@@ -40,10 +32,15 @@ export default defineComponent({
 .product-carousel {
   position: relative;
   overflow: hidden;
+  width: 100%;
+  box-shadow: 0px 0px 20px -4px rgba(34, 60, 80, 0.1);
+  border-radius: 10px;
+
+  @include mw(719px) {
+    border-radius: unset;
+  }
 
   .swiper {
-    position: relative;
-    overflow: hidden;
     height: 400px;
     width: 100%;
 
@@ -51,7 +48,7 @@ export default defineComponent({
       cursor: pointer;
       user-select: none;
       width: 100%;
-      height: 100%;
+      height: 400px;
 
       img {
         width: 100%;
@@ -61,7 +58,7 @@ export default defineComponent({
     }
   }
 
-  & ::v-deep .slick-dots {
+  & ::v-deep .agile__dots {
     position: absolute;
     bottom: 20px;
     left: 0;
@@ -73,6 +70,7 @@ export default defineComponent({
     margin: 0;
 
     li {
+      position: relative;
       color: transparent;
       border: 2px solid var(--white);
       height: 10px;
@@ -81,12 +79,19 @@ export default defineComponent({
       cursor: pointer;
       margin: 0 5px;
 
-      &.slick-active {
+      &.agile__dot--current {
         background: var(--white);
       }
 
       button {
-        visibility: hidden;
+        position: absolute;
+        top: -2px;
+        left: -2px;
+        height: 12px;
+        width: 12px;
+        background: transparent;
+        border: none;
+        border-radius: 12px;
       }
     }
   }

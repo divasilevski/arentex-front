@@ -16,7 +16,6 @@ export default {
 
   // Global CSS: https://go.nuxtjs.dev/config-css
   css: [
-    'vue-slick-carousel/dist/vue-slick-carousel.css',
     'vue-slider-component/dist-css/vue-slider-component.css',
     'vue-slider-component/theme/default.css',
     '~/assets/styles/variables.scss',
@@ -30,7 +29,7 @@ export default {
   plugins: [
     '~/plugins/click-outside.directive.js',
     '~/plugins/collapse.directive.js',
-    './plugins/vue-slick-carousel.js',
+    './plugins/vue-agile.js',
     { src: './plugins/vue-calendar.js', ssr: false },
   ],
 
@@ -54,5 +53,7 @@ export default {
   axios: {},
 
   // Build Configuration: https://go.nuxtjs.dev/config-build
-  build: {},
+  build: {
+    transpile: ['vue-agile'],
+  },
 }
