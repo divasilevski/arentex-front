@@ -58,7 +58,6 @@ export default defineComponent({
       drawerRef,
       closeHandler,
       isShowContent,
-      log: () => console.log('x'),
     }
   },
 })
