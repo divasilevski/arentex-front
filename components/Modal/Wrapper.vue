@@ -1,7 +1,7 @@
 <template lang="pug">
   .modal.closed(ref="modalRef" :data-modal="name")
     template(v-if="isShowContent")
-      .modal__bg(@click="closeHandler")
+      .modal__bg(@click="closeHandler" v-overflow)
       .modal__panel
         .close(@click="closeHandler")
           img.icon(src="~/assets/icons/close-black.svg" alt="CloseIcon")

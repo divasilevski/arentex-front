@@ -29,6 +29,7 @@ export default {
   plugins: [
     '~/plugins/click-outside.directive.js',
     '~/plugins/collapse.directive.js',
+    '~/plugins/overflow.directive.js',
     './plugins/vue-agile.js',
     { src: './plugins/vue-calendar.js', ssr: false },
   ],

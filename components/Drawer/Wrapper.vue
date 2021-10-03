@@ -1,7 +1,7 @@
 <template lang="pug">
   .drawer.closed(ref="drawerRef" :data-drawer="name")
     template(v-if="isShowContent")
-      .drawer__bg(@click="closeHandler")
+      .drawer__bg(@click="closeHandler" v-overflow)
       .drawer__panel
         .drawer__header
           nuxt-link(to="/" @click.native="closeHandler")
