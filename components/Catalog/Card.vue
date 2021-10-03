@@ -3,11 +3,12 @@
     .catalog-card__images
       img(:src="images[0]" :alt="title")
     .catalog-card__title {{ title }}
-    .catalog-card__price от #[span {{ price }} ₽] / день
+    .catalog-card__price от #[span {{ formatPrice(price) }} ₽] / день
 </template>
 
 <script>
 import { defineComponent } from '@nuxtjs/composition-api'
+import { formatPrice } from '~/assets/scripts/utils'
 
 export default defineComponent({
   props: {
@@ -28,7 +29,9 @@ export default defineComponent({
       default: () => [],
     },
   },
-  setup() {},
+  setup() {
+    return { formatPrice }
+  },
 })
 </script>
 

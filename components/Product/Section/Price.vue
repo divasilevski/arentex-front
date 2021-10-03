@@ -1,13 +1,13 @@
 <template lang="pug">
   ProductSection.product-price
     h1.product-price__title Название продукта
-    .product-price__price #[span {{ 1000 }} ₽] / день
+    .product-price__price #[span {{ formatPrice(price) }} ₽] / день
 
     .product-price__caption Арендовать
     UIDatePicker(v-model="range" message="* без учета дней доставки")
 
     .product-price__total
-      | итого #[span {{ countDays * 1000 }} ₽] 
+      | итого #[span {{ formatPrice(countDays * price) }} ₽] 
       | за {{ countDays }} {{ num2str(countDays, ['день', 'дня', 'дней']) }}
 
     .product-price__button
@@ -19,9 +19,15 @@
 <script>
 import { computed, defineComponent, ref } from '@vue/composition-api'
 import { getDaysCount } from '~/assets/scripts/date'
-import { num2str } from '~/assets/scripts/utils'
+import { num2str, formatPrice } from '~/assets/scripts/utils'
 
 export default defineComponent({
+  props: {
+    price: {
+      type: [String, Number],
+      default: 1000,
+    },
+  },
   setup() {
     const range = ref({ start: new Date(), end: new Date() })
 
@@ -31,7 +37,7 @@ export default defineComponent({
       return getDaysCount(start, end)
     })
 
-    return { range, countDays, num2str }
+    return { range, countDays, num2str, formatPrice }
   },
 })
 </script>
