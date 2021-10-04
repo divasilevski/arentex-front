@@ -8,10 +8,23 @@
         CatalogTags
       CatalogFilter
       .catalog__grid
-        CatalogGrid
+        CatalogGrid(:cards="products")
         UIButton(block) Показать ещё
 
 </template>
+
+<script>
+import { defineComponent } from '@nuxtjs/composition-api'
+import { api } from '~/assets/scripts/api'
+
+export default defineComponent({
+  async asyncData({ $axios }) {
+    const products = await api.getProducts($axios)
+    return { products }
+  },
+})
+</script>
+
 
 <style lang="scss" scoped>
 .catalog {

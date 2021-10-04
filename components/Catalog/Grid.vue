@@ -1,19 +1,27 @@
 <template lang="pug">
   .catalog-grid
-    CatalogCard
-    CatalogCard
-    CatalogCard
-    CatalogCard
-    CatalogCard
-    CatalogCard
-    CatalogCard
-    CatalogCard
-    CatalogCard
-    CatalogCard
-    CatalogCard
-    CatalogCard
+    CatalogCard(
+      v-for="card in cards" :key="card.id"
+      :id="card.id"
+      :title="card.title"
+      :price="card.price"
+      :image="card.thumbnail")
 
 </template>
+
+<script>
+import { defineComponent } from '@vue/composition-api'
+
+export default defineComponent({
+  props: {
+    cards: {
+      type: Array,
+      default: () => [],
+    },
+  },
+})
+</script>
+
 
 <style lang="scss" scoped>
 .catalog-grid {

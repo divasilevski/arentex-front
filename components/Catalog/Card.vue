@@ -1,7 +1,7 @@
 <template lang="pug">
   nuxt-link.catalog-card(:to="`/product/${id}`")
     .catalog-card__images
-      img(:src="images[0]" :alt="title")
+      img(:src="'http://arentext.norwayeast.cloudapp.azure.com' + image" :alt="title")
     .catalog-card__title {{ title }}
     .catalog-card__price от #[span {{ formatPrice(price) }} ₽] / день
 </template>
@@ -24,9 +24,9 @@ export default defineComponent({
       type: Number,
       default: 1000,
     },
-    images: {
-      type: Array,
-      default: () => [],
+    image: {
+      type: String,
+      default: '',
     },
   },
   setup() {
@@ -52,8 +52,16 @@ export default defineComponent({
   }
 
   .catalog-card__images {
+    padding: 20px;
     width: 100%;
     height: 200px;
+
+    img {
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+      object-position: center;
+    }
   }
 
   .catalog-card__title {
