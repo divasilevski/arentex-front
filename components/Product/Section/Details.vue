@@ -4,14 +4,14 @@
       h3 Описание
       p {{ description}}
 
-    .product-details__item(v-if="specifications.length > 0") 
+    .product-details__item(v-if="specs.length > 0") 
       h3 Характеристики
       .product-details__specifications
-        .specification(v-for="spec in specifications.slice(0, 5)")
+        .specification(v-for="spec in specs.slice(0, 5)")
           .specification__title {{ spec.title }}
           .specification__value {{ spec.value }}
         template(v-if="isMore")
-          .specification(v-for="spec in specifications.slice(5, -1)")
+          .specification(v-for="spec in specs.slice(5, -1)")
             .specification__title {{ spec.title }}
             .specification__value {{ spec.value }}
         template(v-else)
@@ -24,7 +24,7 @@
 </template>
 
 <script>
-import { defineComponent, ref } from '@vue/composition-api'
+import { defineComponent, computed, ref } from '@vue/composition-api'
 
 export default defineComponent({
   props: {
@@ -35,27 +35,18 @@ export default defineComponent({
     },
     specifications: {
       type: Array,
-      default: () => [
-        { title: 'title1', value: 'value' },
-        { title: 'title2', value: 'value' },
-        { title: 'title3', value: 'value' },
-        { title: 'title4', value: 'value' },
-        { title: 'title5', value: 'value' },
-        { title: 'title6', value: 'value' },
-        { title: 'title7', value: 'value' },
-        { title: 'title8', value: 'value' },
-        { title: 'title8', value: 'value' },
-        { title: 'title8', value: 'value' },
-        { title: 'title8', value: 'value' },
-        { title: 'title8', value: 'value' },
-        { title: 'title8', value: 'value' },
-        { title: 'title8', value: 'value' },
-      ],
+      default: () => [{ title: 'title1', value: 'value' }],
     },
   },
-  setup() {
+  setup(props) {
     return {
       isMore: ref(false),
+      specs: computed(() => {
+        return Object.entries(props.specifications).map((spec) => ({
+          title: spec[0],
+          value: spec[1],
+        }))
+      }),
     }
   },
 })

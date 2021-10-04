@@ -1,6 +1,6 @@
 <template lang="pug">
   ProductSection.product-price
-    h1.product-price__title Название продукта
+    h1.product-price__title {{ title }}
     .product-price__price #[span {{ formatPrice(price) }} ₽] / день
 
     .product-price__caption Арендовать
@@ -23,6 +23,10 @@ import { num2str, formatPrice } from '~/assets/scripts/utils'
 
 export default defineComponent({
   props: {
+    title: {
+      type: String,
+      default: 'Название продукта'
+    },
     price: {
       type: [String, Number],
       default: 1000,

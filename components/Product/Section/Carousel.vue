@@ -3,7 +3,7 @@
     client-only
       agile.swiper(:class="{ 'one-slide': images.length <= 1 }")
         .slide(v-for="(slide, index) in images" :key="'carousel-' + index")
-          img(:src="slide" draggable="false" alt="CarouselImage")
+          img(:src="'http://arentext.norwayeast.cloudapp.azure.com' + slide" draggable="false" alt="CarouselImage")
     UIImageViewer(:images="images")
 
 </template>
@@ -59,7 +59,7 @@ export default defineComponent({
       img {
         width: 100%;
         height: 450px;
-        object-fit: cover;
+        object-fit: contain;
 
         @include mw(719px) {
           height: 400px;

@@ -2,14 +2,14 @@
   ProductSection.product-category(v-if="category || subcategory")
     .product-category__item(v-if="category")
       h3 Категория
-      p.category {{ category.title }}
+      p.category {{ category.name }}
       span.only-not-desktop(v-if="subcategory")
         span.category {{ '&nbsp;&nbsp;>&nbsp;&nbsp;'}} 
-        p.category {{ subcategory.title }}
+        p.category {{ subcategory.name }}
 
     .product-category__item.only-desktop(v-if="subcategory")
       h3 Подкатегория
-      p.category {{ subcategory.title }}
+      p.category {{ subcategory.name }}
 </template>
 
 <script>
@@ -19,11 +19,11 @@ export default defineComponent({
   props: {
     category: {
       type: Object,
-      default: () => ({ id: 123, title: 'Зимний инвентарь' }),
+      default: () => ({ id: 123, name: 'Зимний инвентарь' }),
     },
     subcategory: {
       type: Object,
-      default: () => ({ id: 123, title: 'Лыжи' }),
+      default: () => ({ id: 123, name: 'Лыжи' }),
     },
   },
 })

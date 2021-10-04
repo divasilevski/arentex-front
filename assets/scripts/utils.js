@@ -8,6 +8,7 @@ export function num2str(number, textForms) {
 }
 
 export function formatPrice(price) {
+  price = Math.round(price)
   if (price.toString().length > 4) {
     return price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, '\u00A0')
   }
