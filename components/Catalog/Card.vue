@@ -1,7 +1,7 @@
 <template lang="pug">
   nuxt-link.catalog-card(:to="`/product/${id}`")
     .catalog-card__images
-      img(:src="'http://arentext.norwayeast.cloudapp.azure.com' + image" :alt="title")
+      img(:src="mediaPath + image" :alt="title")
     .catalog-card__title {{ title }}
     .catalog-card__price от #[span {{ formatPrice(price) }} ₽] / день
 </template>
@@ -30,7 +30,7 @@ export default defineComponent({
     },
   },
   setup() {
-    return { formatPrice }
+    return { formatPrice, mediaPath: process.env.MEDIA_URL }
   },
 })
 </script>

@@ -11,7 +11,7 @@
       //- MAIN CAROUSEL
       agile.viewer__main(ref="main" :options="mainOptions" :as-nav-for="[thumbnails]")
         .slide(v-for="(slide, index) in images" :key="index")
-          img(:src="'http://arentext.norwayeast.cloudapp.azure.com' + slide"  draggable="false" alt="MainImage")
+          img(:src="mediaPath + slide"  draggable="false" alt="MainImage")
 
       //- THUMBNAILS CAROUSEL
       agile.viewer__thumbnails(
@@ -22,7 +22,7 @@
         :as-nav-for="[main]"
       )
         div.slide(v-for="(slide, index) in images" :key="index")
-          img(:src="'http://arentext.norwayeast.cloudapp.azure.com' + slide" @click="thumbnails.goTo(index)" alt="ThumbnailsImage")
+          img(:src="mediaPath + slide" @click="thumbnails.goTo(index)" alt="ThumbnailsImage")
         template(slot="prevButton")
           .viewer__prev
             img.icon(src="~/assets/icons/arrow.svg" alt="LeftIcon")
@@ -59,6 +59,8 @@ export default defineComponent({
         navButtons: props.images.length > 5,
         slidesToShow: props.images.length < 5 ? props.images.length : 5,
       },
+
+      mediaPath: process.env.MEDIA_URL,
     }
   },
 })

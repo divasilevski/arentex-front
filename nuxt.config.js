@@ -1,3 +1,5 @@
+require('dotenv').config()
+
 export default {
   // Global page headers: https://go.nuxtjs.dev/config-head
   head: {
@@ -41,6 +43,7 @@ export default {
   buildModules: [
     '@nuxtjs/style-resources',
     '@nuxtjs/composition-api/module',
+    '@nuxtjs/dotenv',
     '@nuxtjs/svg',
   ],
 
@@ -52,11 +55,16 @@ export default {
 
   // Axios module configuration: https://go.nuxtjs.dev/config-axios
   axios: {
-    baseURL: 'http://arentext.norwayeast.cloudapp.azure.com'
+    baseURL: process.env.BASE_URL,
   },
 
   // Build Configuration: https://go.nuxtjs.dev/config-build
   build: {
     transpile: ['vue-agile'],
+  },
+
+  env: {
+    BASE_URL: process.env.BASE_URL,
+    MEDIA_URL: process.env.MEDIA_URL,
   },
 }

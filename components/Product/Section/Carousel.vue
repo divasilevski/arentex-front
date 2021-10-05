@@ -3,7 +3,7 @@
     client-only
       agile.swiper(:class="{ 'one-slide': images.length <= 1 }")
         .slide(v-for="(slide, index) in images" :key="'carousel-' + index")
-          img(:src="'http://arentext.norwayeast.cloudapp.azure.com' + slide" draggable="false" alt="CarouselImage")
+          img(:src="mediaPath + slide" draggable="false" alt="CarouselImage")
     UIImageViewer(:images="images")
 
 </template>
@@ -18,6 +18,9 @@ export default defineComponent({
       type: Array,
       default: () => [],
     },
+  },
+  setup() {
+    return { mediaPath: process.env.MEDIA_URL }
   },
 })
 </script>
