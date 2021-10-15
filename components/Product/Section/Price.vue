@@ -11,29 +11,33 @@
       | за {{ countDays }} {{ num2str(countDays, ['день', 'дня', 'дней']) }}
 
     .product-price__button
-      UIButton(accent) Добавить в корзину
+      UIButton(accent @click="addToBasket") Добавить в корзину
         img.icon(src="~/assets/icons/basket.svg" alt="BasketIcon")
         img.icon.plus(src="~/assets/icons/close.svg" alt="CloseIcon")
 </template>
 
 <script>
-import { computed, defineComponent, ref } from '@vue/composition-api'
+import {
+  defineComponent,
+  computed,
+  useStore,
+  ref,
+} from '@nuxtjs/composition-api'
 import { getDaysCount } from '~/assets/scripts/date'
 import { num2str, formatPrice } from '~/assets/scripts/utils'
 
 export default defineComponent({
   props: {
-    title: {
-      type: String,
-      default: 'Название продукта'
-    },
-    price: {
-      type: [String, Number],
-      default: 1000,
+    product: {
+      type: Object,
+      default: null,
     },
   },
-  setup() {
+  setup({ product }) {
+    const store = useStore()
     const range = ref({ start: new Date(), end: new Date() })
+    const title = computed(() => product && product.title)
+    const price = computed(() => product && product.price)
 
     const countDays = computed(() => {
       const start = range.value.start
@@ -41,7 +45,13 @@ export default defineComponent({
       return getDaysCount(start, end)
     })
 
-    return { range, countDays, num2str, formatPrice }
+    const addToBasket = () => {
+      const id = product.id
+      const thumbnail = product.thumbnail
+      store.commit('basket/add', { id, thumbnail, title, price, range })
+    }
+
+    return { range, title, price, countDays, num2str, formatPrice, addToBasket }
   },
 })
 </script>

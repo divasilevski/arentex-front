@@ -11,6 +11,7 @@
         .menu__item
           .menu__icon(@click="openBasket")
             img.icon(src="~/assets/icons/basket.svg" alt="BasketIcon")
+            .badge(v-if="badge")
         .menu__item.search
           .menu__icon(@click="openSearch")
             img.icon(src="~/assets/icons/search.svg" alt="SearchIcon")
@@ -21,21 +22,30 @@
 </template>
 
 <script>
-import { defineComponent, useStore, ref } from '@nuxtjs/composition-api'
+import {
+  defineComponent,
+  useStore,
+  computed,
+  ref,
+} from '@nuxtjs/composition-api'
 import { menu } from '~/assets/scripts/menu.js'
 
 export default defineComponent({
   setup() {
     const navbarRef = ref(null)
     const store = useStore()
+    const badge = computed(() => store.state.basket.basket.length > 0)
+
     const toggleMethod = () => {
       const isDesktop = navbarRef.value.offsetWidth > 1023
       return isDesktop ? 'toggleModal' : 'toggleDrawer'
     }
+
     const openMenu = () => store.commit('toggleDrawer', 'menu')
     const openBasket = () => store.commit(toggleMethod(), 'basket')
     const openSearch = () => store.commit(toggleMethod(), 'search')
-    return { menu, openMenu, openBasket, openSearch, navbarRef }
+
+    return { menu, badge, openMenu, openBasket, openSearch, navbarRef }
   },
 })
 </script>
@@ -129,6 +139,16 @@ export default defineComponent({
               top: -7px;
               left: -7px;
             }
+          }
+
+          .badge {
+            position: absolute;
+            top: -6px;
+            right: -6px;
+            width: 8px;
+            height: 8px;
+            border-radius: 8px;
+            background: var(--accent);
           }
         }
       }

@@ -1,7 +1,7 @@
 <template lang="pug">
   nuxt-link.button(v-if="to" :to="to" :class="{block, light, accent, disabled}")
     slot
-  button.button(v-else :class="{block, light, accent, disabled}")
+  button.button(v-else :class="{block, light, accent, disabled}" @click="$emit('click')")
     slot
 </template>
 

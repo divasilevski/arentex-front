@@ -3,10 +3,8 @@
     .product__head
       ProductSectionCarousel(
         :images="product.images")
-      ProductSectionPrice(
-        :title="product.title"
-        :price="product.price")
-  
+      ProductSectionPrice(:product="product")
+
     .product__info
       ProductSectionDetails(
         :description="product.description"
