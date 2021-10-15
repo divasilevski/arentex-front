@@ -33,7 +33,8 @@ export default {
     '~/plugins/collapse.directive.js',
     '~/plugins/overflow.directive.js',
     './plugins/vue-agile.js',
-    { src: './plugins/vue-calendar.js', ssr: false },
+    { src: '~/plugins/vue-calendar.js', ssr: false },
+    { src: '~/plugins/nuxt-client-init.plugin.js', ssr: false },
   ],
 
   // Auto import components: https://go.nuxtjs.dev/config-components
