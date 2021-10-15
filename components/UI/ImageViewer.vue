@@ -183,6 +183,7 @@ export default defineComponent({
       justify-content: center;
       width: 100%;
       height: 100%;
+      touch-action: none;
 
       .slide {
         display: flex;
@@ -206,6 +207,7 @@ export default defineComponent({
       z-index: 1;
       width: 450px;
       height: 80px;
+      touch-action: none;
 
       @include mw(719px) {
         width: 225px;
