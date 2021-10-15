@@ -6,3 +6,11 @@ export const api = {
     return axios.$get(`/product/${id}`)
   },
 }
+
+export const asyncRequest = async (context, request, ...args) => {
+  try {
+    return await request(context.$axios, ...args)
+  } catch (e) {
+    context.error({ statusCode: e.response.status })
+  }
+}

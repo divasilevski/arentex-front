@@ -19,12 +19,13 @@
 
 <script>
 import { defineComponent } from '@vue/composition-api'
-import { api } from '~/assets/scripts/api'
+import { api, asyncRequest } from '~/assets/scripts/api'
 
 export default defineComponent({
-  async asyncData({ params, $axios }) {
-    const product = await api.getProductById($axios, params.id)
-    return { product }
+  async asyncData(ctx) {
+    return {
+      product: await asyncRequest(ctx, api.getProductById, ctx.params.id),
+    }
   },
 })
 </script>

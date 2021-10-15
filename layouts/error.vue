@@ -3,7 +3,7 @@
     nuxt-link.logo-box(to="/")
       img.logo-box__img(src="~/assets/icons/logo-black.svg" alt="Arentex")
       .logo-box__line
-      .logo-box__error ОШИБКА {{ error.statusCode || 404 }}
+      .logo-box__error ОШИБКА {{ error.statusCode || '' }}
 
     .decription
       span(v-if="error.statusCode === 400") Запрос не может быть понят сервером из-за неправильного синтаксиса

@@ -15,12 +15,13 @@
 
 <script>
 import { defineComponent } from '@nuxtjs/composition-api'
-import { api } from '~/assets/scripts/api'
+import { api, asyncRequest } from '~/assets/scripts/api'
 
 export default defineComponent({
-  async asyncData({ $axios }) {
-    const products = await api.getProducts($axios)
-    return { products }
+  async asyncData(ctx) {
+    return {
+      products: await asyncRequest(ctx, api.getProducts),
+    }
   },
 })
 </script>
