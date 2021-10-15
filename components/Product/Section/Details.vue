@@ -34,8 +34,8 @@ export default defineComponent({
         'Делайте нереально крутые снимки, используя только смартфон! 4 модуля камеры Samsung Galaxy A51 оснащены искуственным интелектом, которые подбирают оптимальные настройки экспозиции для любых условий. Емкостная батарея на 4000 мАч ддаёт возможность спокойно протянуть без подзарядки весь день, что особенно радует активных людей.',
     },
     specifications: {
-      type: Array,
-      default: () => [{ title: 'title1', value: 'value' }],
+      type: Object,
+      default: () => ({}),
     },
   },
   setup(props) {
@@ -106,6 +106,11 @@ export default defineComponent({
       font-size: 16px;
       border-radius: 20px;
 
+      @include mw(719px) {
+        font-size: 14px;
+        line-height: 20px;
+      }
+
       &:hover {
         background: var(--light-selected);
 
@@ -118,19 +123,30 @@ export default defineComponent({
       &::before {
         content: ' ';
         position: absolute;
-        bottom: 16px;
-        width: calc(100% - 16px);
+        top: 22px;
+        width: calc(100% - 20px);
         border-bottom: 1px dotted var(--light-gray);
         z-index: -1;
+
+        @include mw(719px) {
+          top: 20px;
+        }
       }
 
       .specification__title {
         background: var(--white);
         padding-right: 8px;
+        margin-right: 20px;
+
+        @include mw(719px) {
+          color: var(--gray);
+          font-weight: 500;
+        }
       }
       .specification__value {
         background: var(--white);
         padding-left: 8px;
+        text-align: right;
       }
     }
   }

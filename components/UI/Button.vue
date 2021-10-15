@@ -44,12 +44,13 @@ export default defineComponent({
   margin: 0;
   padding: 0 44px;
   border: none;
-  text-transform: uppercase;
   user-select: none;
   cursor: pointer;
   height: 38px;
   font-size: 14px;
   line-height: 14px;
+  white-space: nowrap;
+  text-transform: uppercase;
   background: var(--main);
   color: var(--light-gray);
 

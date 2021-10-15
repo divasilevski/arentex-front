@@ -91,7 +91,7 @@ export default defineComponent({
       top: -5px;
       z-index: -1;
       background: var(--main);
-      opacity: 0.1;
+      opacity: 0.05;
       width: 40px;
       height: 40px;
       border-radius: 40px;
@@ -248,6 +248,7 @@ export default defineComponent({
           width: 80px;
           height: 80px;
           object-fit: cover;
+          background: white;
           border: 2px solid var(--light-gray);
           border-radius: 10px;
 

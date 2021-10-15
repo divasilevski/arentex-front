@@ -62,7 +62,7 @@ export default defineComponent({
       img {
         width: 100%;
         height: 450px;
-        object-fit: contain;
+        object-fit: cover;
 
         @include mw(719px) {
           height: 400px;
@@ -82,6 +82,18 @@ export default defineComponent({
       list-style-type: none;
       padding: 0;
       margin: 0;
+
+      &::before {
+        content: ' ';
+        position: absolute;
+        top: -6px;
+        left: -6px;
+        right: -6px;
+        bottom: -6px;
+        border-radius: 12px;
+        opacity: 0.05;
+        background: var(--main);
+      }
 
       li {
         position: relative;
