@@ -11,7 +11,8 @@
         .menu__item
           .menu__icon(@click="openBasket")
             img.icon(src="~/assets/icons/basket.svg" alt="BasketIcon")
-            .badge(v-if="badge")
+            client-only
+              .badge(v-if="badge")
         .menu__item.search
           .menu__icon(@click="openSearch")
             img.icon(src="~/assets/icons/search.svg" alt="SearchIcon")

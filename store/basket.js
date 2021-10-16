@@ -10,8 +10,12 @@ export const mutations = {
     state.basket = [...state.basket, product]
     save(state)
   },
+  update(state, { index, field, value }) {
+    state.basket[index][field] = value
+    save(state)
+  },
   remove(state, id) {
-    state.basket = state.basket.filter((el) => el.id === id)
+    state.basket = state.basket.filter((el) => el.id !== id)
     save(state)
   },
   clear(state) {

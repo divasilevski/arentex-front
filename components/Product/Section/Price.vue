@@ -4,7 +4,10 @@
     .product-price__price #[span {{ formatPrice(price) }} ₽] / день
 
     .product-price__caption Арендовать
-    UIDatePicker(v-model="range" message="* без учета дней доставки")
+    .product-price__date
+      UIDatePicker(v-model="range" message="* без учета дней доставки")
+      client-only
+        img.icon(v-if="count" src="~/assets/icons/basket-black.svg" alt="BasketIcon")
 
     .product-price__total
       | итого #[span {{ formatPrice(countDays * price) }} ₽] 
@@ -12,8 +15,14 @@
 
     .product-price__button
       UIButton(accent @click="addToBasket") Добавить в корзину
-        img.icon(src="~/assets/icons/basket.svg" alt="BasketIcon")
-        img.icon.plus(src="~/assets/icons/close.svg" alt="CloseIcon")
+        client-only
+          template(v-if="count")
+            img.icon.x(src="~/assets/icons/close.svg" alt="CloseIcon")
+            span {{ count + 1 }}
+          template(v-else)
+            img.icon(src="~/assets/icons/basket.svg" alt="BasketIcon")
+            img.icon.plus(src="~/assets/icons/close.svg" alt="CloseIcon")
+
 </template>
 
 <script>
@@ -23,7 +32,7 @@ import {
   useStore,
   ref,
 } from '@nuxtjs/composition-api'
-import { getDaysCount } from '~/assets/scripts/date'
+import { getDaysCount, compareRanges } from '~/assets/scripts/date'
 import { num2str, formatPrice } from '~/assets/scripts/utils'
 
 export default defineComponent({
@@ -34,7 +43,7 @@ export default defineComponent({
     },
   },
   setup({ product }) {
-    const store = useStore()
+    // Main
     const range = ref({ start: new Date(), end: new Date() })
     const title = computed(() => product && product.title)
     const price = computed(() => product && product.price)
@@ -45,13 +54,50 @@ export default defineComponent({
       return getDaysCount(start, end)
     })
 
-    const addToBasket = () => {
-      const id = product.id
-      const thumbnail = product.thumbnail
-      store.commit('basket/add', { id, thumbnail, title, price, range })
+    // Basket
+    const byIdAndRange = (el) => {
+      const byId = el.id === product.id
+      return byId && compareRanges(el.range, range.value)
     }
 
-    return { range, title, price, countDays, num2str, formatPrice, addToBasket }
+    const store = useStore()
+    const basket = computed(() => store.state.basket.basket)
+    const index = computed(() => basket.value.findIndex(byIdAndRange))
+    const count = computed(() =>
+      index.value > -1 ? basket.value[index.value].count : 0
+    )
+
+    const addToBasket = () => {
+      if (count.value) {
+        store.commit('basket/update', {
+          index: index.value,
+          field: 'count',
+          value: count.value + 1,
+        })
+      } else {
+        store.commit('basket/add', {
+          thumbnail: product.thumbnail,
+          title: title.value,
+          price: price.value,
+          range: range.value,
+          id: product.id,
+          count: 1,
+        })
+      }
+    }
+
+    return {
+      range,
+      title,
+      price,
+      countDays,
+
+      count,
+      addToBasket,
+
+      num2str,
+      formatPrice,
+    }
   },
 })
 </script>
@@ -76,6 +122,18 @@ export default defineComponent({
     line-height: 22px;
     margin-bottom: 5px;
     margin-top: 30px;
+  }
+
+  .product-price__date {
+    position: relative;
+    width: 100%;
+
+    img {
+      position: absolute;
+      right: 15px;
+      top: 8px;
+      animation: blink 3s infinite;
+    }
   }
 
   .product-price__price {
@@ -106,7 +164,8 @@ export default defineComponent({
   .product-price__button {
     margin-top: 70px;
     display: flex;
-    justify-content: center;
+    flex-direction: column;
+    align-items: center;
 
     @include mw(1024px) {
       margin-top: 30px;
@@ -124,7 +183,31 @@ export default defineComponent({
         margin-left: 0px;
         margin-bottom: 10px;
       }
+
+      &.x {
+        transform: rotate(90deg);
+        width: 10px;
+        height: 10px;
+        margin-top: 5px;
+        margin-left: 7px;
+      }
     }
+
+    span {
+      text-transform: lowercase;
+    }
+  }
+}
+
+@keyframes blink {
+  from {
+    transform: rotate(10deg);
+  }
+  50% {
+    transform: rotate(-10deg);
+  }
+  to {
+    transform: rotate(10deg);
   }
 }
 </style>
