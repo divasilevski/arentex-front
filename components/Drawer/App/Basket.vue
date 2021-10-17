@@ -1,13 +1,13 @@
 <template lang="pug">
   DrawerWrapper(name="basket")
     .drawer-basket
-      h2 Корзина
+      Basket
+
 </template>
 
 <style lang="scss" scoped>
 .drawer-basket {
-  height: 100%;
-  padding: 0 30px;
+  height: calc(100%);
 }
 </style>
 

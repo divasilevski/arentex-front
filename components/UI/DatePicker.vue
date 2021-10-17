@@ -9,8 +9,8 @@
           :min-date="new Date()"
           @input="$emit('input', $event)"
           is-range)
-          template(v-slot="{ inputValue, inputEvents }")
-            .data-picker-input(v-on="inputEvents.start")
+          template(v-slot="{ inputValue, togglePopover }")
+            .data-picker-input(@click="togglePopover")
               .date-text(v-if="inputValue.start === inputValue.end")
                 span.text на&nbsp;
                 span.date {{ toHumanDate(inputValue.start) }}
@@ -90,6 +90,7 @@ export default defineComponent({
       background-color: var(--light-gray);
       border-radius: 38px;
       height: 38px;
+      cursor: pointer;
 
       &:hover {
         background-color: var(--light-selected);

@@ -186,9 +186,9 @@ export default defineComponent({
 
       &.x {
         transform: rotate(90deg);
-        width: 10px;
-        height: 10px;
-        margin-top: 5px;
+        width: 11px;
+        height: 11px;
+        margin-top: 6px;
         margin-left: 7px;
       }
     }
