@@ -10,16 +10,17 @@
         .specification(v-for="spec in specs.slice(0, 5)")
           .specification__title {{ spec.title }}
           .specification__value {{ spec.value }}
-        template(v-if="isMore")
-          .specification(v-for="spec in specs.slice(5, -1)")
-            .specification__title {{ spec.title }}
-            .specification__value {{ spec.value }}
-        template(v-else)
-          .more
-            .more__dots(@click="isMore = true")
-              .more__dot
-              .more__dot
-              .more__dot
+        template(v-if="specs.length > 4")
+          template(v-if="isMore")
+            .specification(v-for="spec in specs.slice(5, -1)")
+              .specification__title {{ spec.title }}
+              .specification__value {{ spec.value }}
+          template(v-else)
+            .more
+              .more__dots(@click="isMore = true")
+                .more__dot
+                .more__dot
+                .more__dot
 
 </template>
 

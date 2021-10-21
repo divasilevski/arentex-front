@@ -1,28 +1,28 @@
 <template lang="pug">
-  .basket-card(v-if="product")
+  .basket-card
+    .basket-card__remove(@click="remove")
+      img.icon(src="~/assets/icons/close-black.svg" alt="RemoveIcon")
+
     .basket-card__image
       img(:src="mediaPath + product.thumbnail" :alt="product.title")
 
     .basket-card__body
-      .basket-card__title
-        nuxt-link(:to="`/product/${product.id}`" @click.native="close") {{ product.title }}
-        .basket-card__remove(@click="remove")
-          img.icon(src="~/assets/icons/close-black.svg" alt="RemoveIcon")
-
+      nuxt-link.basket-card__title(:to="path" @click.native="close") {{ product.title }}
       .basket-card__price #[span {{ formatPrice(product.price) }} ₽] / день
-      UIDatePicker(v-model="range")
+      UIDatePicker(:value="product.range" @input="changeDates")
+
       .basket-card__footer
-        BasketCounter(:count="product.count")
+        BasketCounter(:count="product.count" @minus="minus" @plus="plus")
         .basket-card__total
-          | итого #[span {{ formatPrice(countDays * product.price * product.count) }} ₽] 
-          | за {{ countDays }} {{ num2str(countDays, ['день', 'дня', 'дней']) }}
+          | итого #[span {{ formatPrice(product.total) }} ₽] 
+          | за {{ product.days }} {{ num2str(product.days, ['день', 'дня', 'дней']) }}
 
 </template>
 
 <script>
-import { defineComponent, ref, computed } from '@vue/composition-api'
+import { computed } from '@nuxtjs/composition-api'
+import { defineComponent } from '@vue/composition-api'
 import { num2str, formatPrice } from '~/assets/scripts/utils'
-import { getDaysCount } from '~/assets/scripts/date'
 
 export default defineComponent({
   props: {
@@ -31,31 +31,19 @@ export default defineComponent({
       default: null,
     },
   },
-  setup(props) {
-    const range = ref(props.product.range)
-
-    const countDays = computed(() => {
-      const start = new Date(range.value.start)
-      const end = new Date(range.value.end)
-      return getDaysCount(start, end)
-    })
-
-    const close = () => {
-      console.log('close,')
-    }
-    const remove = () => {
-      console.log('remove,')
-    }
-
+  setup({ product }, { emit }) {
     return {
-      range,
+      path: computed(() => `/product/${product.id}`),
+      mediaPath: process.env.MEDIA_URL,
       formatPrice,
       num2str,
-      mediaPath: process.env.MEDIA_URL,
 
-      countDays,
-      close,
-      remove,
+      // -= Emits =-
+      changeDates: (dates) => emit('changeDates', dates),
+      remove: () => emit('remove'),
+      close: () => emit('close'),
+      minus: () => emit('minus'),
+      plus: () => emit('plus'),
     }
   },
 })
@@ -63,11 +51,40 @@ export default defineComponent({
 
 <style lang="scss" scoped>
 .basket-card {
+  position: relative;
   display: flex;
   align-items: flex-start;
   box-shadow: 0px 0px 20px -4px rgba(34, 60, 80, 0.1);
   background: var(--white);
   border-radius: 10px;
+
+  .basket-card__remove {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 24px;
+    height: 24px;
+    border-radius: 24px;
+    background: var(--light-gray);
+    cursor: pointer;
+
+    &:hover {
+      background: var(--light-selected);
+
+      img {
+        transition: 0.3s;
+        transform: rotate(90deg);
+      }
+    }
+
+    img {
+      width: 12px;
+      height: 12px;
+    }
+  }
 
   .basket-card__image {
     width: 150px;
@@ -80,74 +97,47 @@ export default defineComponent({
   }
 
   .basket-card__body {
-    padding: 20px;
     width: 100%;
+    padding: 20px;
+  }
 
-    .basket-card__title {
-      display: flex;
-      justify-content: space-between;
-      text-transform: uppercase;
-      font-weight: 500;
+  .basket-card__title {
+    display: flex;
+    justify-content: space-between;
+    margin-right: 30px;
+    width: fit-content;
+    text-transform: uppercase;
+    font-weight: 500;
 
-      a {
-        margin-right: 20px;
-
-        &:hover {
-          transition: 0.2s;
-          color: var(--accent);
-        }
-      }
-
-      .basket-card__remove {
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        width: 24px;
-        height: 24px;
-        border-radius: 24px;
-        background: var(--light-gray);
-        cursor: pointer;
-
-        &:hover {
-          background: var(--light-selected);
-
-          img {
-            transition: 0.3s;
-            transform: rotate(90deg);
-          }
-        }
-
-        img {
-          width: 12px;
-          height: 12px;
-        }
-      }
+    &:hover {
+      transition: 0.2s;
+      color: var(--accent);
     }
+  }
 
-    .basket-card__price {
-      margin: 5px 0 15px;
-      font-size: 12px;
+  .basket-card__price {
+    margin: 5px 0 15px;
+    font-size: 12px;
+
+    span {
+      font-size: 14px;
+    }
+  }
+
+  .basket-card__footer {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-top: 15px;
+
+    .basket-card__total {
+      font-weight: 500;
+      font-size: 16px;
+      color: var(--main);
 
       span {
-        font-size: 14px;
-      }
-    }
-
-    .basket-card__footer {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      margin-top: 15px;
-
-      .basket-card__total {
-        font-weight: 500;
-        font-size: 16px;
-        color: var(--main);
-
-        span {
-          font-weight: 700;
-          font-size: 20px;
-        }
+        font-weight: 700;
+        font-size: 20px;
       }
     }
   }

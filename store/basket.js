@@ -5,6 +5,7 @@ export const state = () => ({
 export const mutations = {
   set(state, basket) {
     state.basket = [...basket]
+    save(state)
   },
   add(state, product) {
     state.basket = [...state.basket, product]
@@ -14,8 +15,8 @@ export const mutations = {
     state.basket[index][field] = value
     save(state)
   },
-  remove(state, id) {
-    state.basket = state.basket.filter((el) => el.id !== id)
+  remove(state, index) {
+    state.basket = state.basket.filter((_, idx) => idx !== index)
     save(state)
   },
   clear(state) {
@@ -26,11 +27,20 @@ export const mutations = {
 
 export const actions = {
   nuxtClientInit({ commit }) {
-    const basket = localStorage.getItem('basket')
-    basket && commit('set', JSON.parse(basket))
+    const item = localStorage.getItem('basket')
+    const basket = item && removeOutdated(JSON.parse(item))
+    basket && commit('set', basket)
   },
 }
 
 function save(state) {
   localStorage.setItem('basket', JSON.stringify(state.basket))
+}
+
+function removeOutdated(basket) {
+  return basket.filter(
+    (product) =>
+      new Date(product.range.start) >
+      new Date().setDate(new Date().getDate() - 1)
+  )
 }

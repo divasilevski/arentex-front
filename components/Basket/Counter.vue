@@ -1,8 +1,8 @@
 <template lang="pug">
   .basket-counter
-    .basket-counter__btn(:class="{ disabled: count <= min }") -
+    .basket-counter__btn(:class="{ disabled: count <= min }" @click="minus") -
     .basket-counter__value {{ count }}
-    .basket-counter__btn(:class="{ disabled: count >= max }") +
+    .basket-counter__btn(:class="{ disabled: count >= max }" @click="plus") +
 
 </template>
 
@@ -24,7 +24,13 @@ export default defineComponent({
       default: 100,
     },
   },
-  setup() {},
+  setup(_, { emit }) {
+    return {
+      // -= Emits =-
+      minus: () => emit('minus'),
+      plus: () => emit('plus'),
+    }
+  },
 })
 </script>
 
@@ -32,6 +38,7 @@ export default defineComponent({
 .basket-counter {
   display: flex;
   align-items: center;
+  user-select: none;
 
   .basket-counter__btn {
     display: flex;
@@ -46,7 +53,6 @@ export default defineComponent({
     line-height: 20px;
     font-weight: 600;
     cursor: pointer;
-    user-select: none;
 
     &:hover {
       background: var(--light-selected);

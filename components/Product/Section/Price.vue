@@ -15,13 +15,8 @@
 
     .product-price__button
       UIButton(accent @click="addToBasket") Добавить в корзину
-        client-only
-          template(v-if="count")
-            img.icon.x(src="~/assets/icons/close.svg" alt="CloseIcon")
-            span {{ count + 1 }}
-          template(v-else)
-            img.icon(src="~/assets/icons/basket.svg" alt="BasketIcon")
-            img.icon.plus(src="~/assets/icons/close.svg" alt="CloseIcon")
+        img.icon(src="~/assets/icons/basket.svg" alt="BasketIcon")
+        img.icon.plus(src="~/assets/icons/close.svg" alt="CloseIcon")
 
 </template>
 
@@ -182,14 +177,6 @@ export default defineComponent({
         height: 8px;
         margin-left: 0px;
         margin-bottom: 10px;
-      }
-
-      &.x {
-        transform: rotate(90deg);
-        width: 11px;
-        height: 11px;
-        margin-top: 6px;
-        margin-left: 7px;
       }
     }
 

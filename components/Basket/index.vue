@@ -2,41 +2,47 @@
   .basket
     .basket__header
       h2 Корзина&nbsp;
-      span(v-if="basket.length !== 0" @click="clear" light) (Очистить)
+      span(v-if="!isEmpty" @click="clear") (Очистить)
 
     .basket__cards
-      .basket__nothing(v-if="basket.length === 0")
-        p В корзине пусто 🙁
+      BasketEmpty(v-if="isEmpty")
       BasketCard(
-        v-for="(product, index) in basket"
-        :key="product.id + index"
-        :product="product")
+        v-for="(product, index) in basket" :key="productKey(product)"
+        :product="{ ...product, ...expand(index) }"
+        @changeDates="changeDates(index, $event)"
+        @remove="remove(index)"
+        @minus="minus(index)"
+        @plus="plus(index)"
+        @close="close")
 
     .basket__footer
-      h3 Итого #[span {{ formatPrice(total) }} ₽] 
-      UIButton(accent :disabled="basket.length === 0") Перейти к оформлению
+      h3 Итого #[span {{ formatPrice(total) }} ₽]
+      UIButton(to="/checkout" @click="close" :disabled="isEmpty" accent) Перейти к оформлению
 
 </template>
 
 <script>
-import { defineComponent, useStore, computed } from '@nuxtjs/composition-api'
-import { getDaysCount } from '~/assets/scripts/date'
+import { computed, defineComponent, useStore } from '@nuxtjs/composition-api'
+import { useBasket } from '~/composables/basket'
 import { formatPrice } from '~/assets/scripts/utils'
 
 export default defineComponent({
   setup() {
     const store = useStore()
-    const basket = computed(() => store.state.basket.basket)
-    const total = computed(() =>
-      basket.value.reduce((a, b) => {
-        const start = new Date(b.range.start)
-        const end = new Date(b.range.end)
-        return b.price * b.count * getDaysCount(start, end) + a
-      }, 0)
-    )
-    const clear = () => store.commit('basket/clear')
+    const { basket, ...otherMethods } = useBasket()
 
-    return { total, basket, clear, formatPrice }
+    // -= Computed =-
+    const isEmpty = computed(() => basket.value.length === 0)
+
+    // -= Methods =-
+    const productKey = (item) => item.id + item.range.start + item.range.end
+
+    const close = () => {
+      if (store.state.modal.basket) store.commit('toggleModal', 'basket')
+      if (store.state.drawer.basket) store.commit('toggleDrawer', 'basket')
+    }
+
+    return { formatPrice, basket, isEmpty, productKey, close, ...otherMethods }
   },
 })
 </script>
@@ -68,13 +74,6 @@ export default defineComponent({
     height: calc(100% - 90px);
     padding: 15px 30px;
     overflow-y: auto;
-
-    .basket__nothing {
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      height: 100%;
-    }
 
     .basket-card {
       margin: 10px 0;
