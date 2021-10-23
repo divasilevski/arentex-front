@@ -48,6 +48,8 @@ export default defineComponent({
 </script>
 
 <style lang="scss" scoped>
+$tablet: 650px;
+
 .basket {
   height: 100%;
   padding: 30px 0;
@@ -75,6 +77,10 @@ export default defineComponent({
     padding: 15px 30px;
     overflow-y: auto;
 
+    @include mw($tablet) {
+      height: calc(100% - 110px);
+    }
+
     .basket-card {
       margin: 10px 0;
     }
@@ -86,6 +92,16 @@ export default defineComponent({
     justify-content: space-between;
     padding: 8px 30px 0;
     height: 50px;
+
+    @include mw($tablet) {
+      flex-direction: column;
+      align-items: flex-start;
+      height: 80px;
+
+      h3 {
+        margin-bottom: 10px;
+      }
+    }
   }
 }
 </style>

@@ -50,6 +50,8 @@ export default defineComponent({
 </script>
 
 <style lang="scss" scoped>
+$tablet: 650px;
+
 .basket-card {
   position: relative;
   display: flex;
@@ -57,6 +59,10 @@ export default defineComponent({
   box-shadow: 0px 0px 20px -4px rgba(34, 60, 80, 0.1);
   background: var(--white);
   border-radius: 10px;
+
+  @include mw($tablet) {
+    flex-direction: column;
+  }
 
   .basket-card__remove {
     position: absolute;
@@ -88,6 +94,12 @@ export default defineComponent({
 
   .basket-card__image {
     width: 150px;
+
+    @include mw($tablet) {
+      display: flex;
+      justify-content: center;
+      width: 100%;
+    }
 
     img {
       width: 150px;
@@ -130,10 +142,18 @@ export default defineComponent({
     justify-content: space-between;
     margin-top: 15px;
 
+    @include mw($tablet) {
+      flex-direction: column;
+    }
+
     .basket-card__total {
       font-weight: 500;
       font-size: 16px;
       color: var(--main);
+
+      @include mw($tablet) {
+        margin-top: 15px;
+      }
 
       span {
         font-weight: 700;

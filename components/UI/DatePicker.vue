@@ -15,10 +15,12 @@
                 span.text на&nbsp;
                 span.date {{ toHumanDate(inputValue.start) }}
               .date-text(v-else)
-                span.text с&nbsp;
-                span.date {{ toHumanDate(inputValue.start) }}
-                span.text &nbsp;по&nbsp; 
-                span.date {{ toHumanDate(inputValue.end) }}
+                span
+                  span.text с&nbsp;
+                  span.date {{ toHumanDate(inputValue.start) }}
+                span
+                  span.text &nbsp;по&nbsp;
+                  span.date {{ toHumanDate(inputValue.end) }}
     .data-picker__message(v-if="message") {{ message }}
 </template>
 
@@ -99,6 +101,7 @@ export default defineComponent({
       .date-text {
         display: flex;
         align-items: baseline;
+        flex-wrap: wrap;
       }
 
       span.text {
