@@ -2,14 +2,18 @@
   ProductSection.product-category(v-if="category || subcategory")
     .product-category__item(v-if="category")
       h3 Категория
-      p.category {{ category.name }}
+      nuxt-link(:to="toCategory")
+        p.category {{ category.name }}
+
       span.only-not-desktop(v-if="subcategory")
         span.category {{ '&nbsp;&nbsp;>&nbsp;&nbsp;'}} 
-        p.category {{ subcategory.name }}
+        nuxt-link(:to="toSubcategory")
+          p.category {{ subcategory.name }}
 
     .product-category__item.only-desktop(v-if="subcategory")
       h3 Подкатегория
-      p.category {{ subcategory.name }}
+      nuxt-link(:to="toSubcategory")
+        p.category {{ subcategory.name }}
 </template>
 
 <script>
@@ -19,12 +23,18 @@ export default defineComponent({
   props: {
     category: {
       type: Object,
-      default: () => ({ id: 123, name: 'Зимний инвентарь' }),
+      default: () => ({ id: 0, name: 'Категория' }),
     },
     subcategory: {
       type: Object,
-      default: () => ({ id: 123, name: 'Лыжи' }),
+      default: () => ({ id: 0, name: 'Подкатегория' }),
     },
+  },
+  setup({ category, subcategory }) {
+    return {
+      toCategory: `/catalog?category=${category.id}`,
+      toSubcategory: `/catalog?category=${category.id}&subcategory=${subcategory.id}`,
+    }
   },
 })
 </script>

@@ -1,7 +1,7 @@
 <template lang="pug">
   .category
     .category__item
-      nuxt-link(:to="`?category=${category.id}`") {{ category.title }}
+      nuxt-link(:to="`?category=${category.id}`") {{ category.name }}
       .category__more(v-if="category.subs" @click="togglePanel")
         img.small-icon(
           :class="{ open: panel }"
@@ -12,7 +12,7 @@
       nuxt-link.subcategory(
         v-for="subcategory in category.subs"
         :key="'subcategory-' + subcategory.id"
-        :to="`?subcategory=${subcategory.id}`"
+        :to="`?category=${category.id}&subcategory=${subcategory.id}`"
       ) {{subcategory.title}}
 </template>
 

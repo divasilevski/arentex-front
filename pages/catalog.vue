@@ -6,7 +6,7 @@
       .catalog__header
         CatalogSort
         CatalogTags
-      CatalogFilter
+      CatalogFilter(:categories="categories")
       .catalog__grid
         CatalogGrid(:cards="products")
         UIButton(block) Показать ещё
@@ -19,9 +19,9 @@ import { api, asyncRequest } from '~/assets/scripts/api'
 
 export default defineComponent({
   async asyncData(ctx) {
-    return {
-      products: await asyncRequest(ctx, api.getProducts),
-    }
+    const requests = [api.getProducts, api.getCategories]
+    const [products, categories] = await asyncRequest(ctx, requests)
+    return { products, categories }
   },
 })
 </script>
