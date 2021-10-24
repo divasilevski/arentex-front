@@ -1,23 +1,29 @@
 <template lang="pug">
   .category
     .category__item
-      nuxt-link(:to="`?category=${category.id}`") {{ category.name }}
-      .category__more(v-if="category.subs" @click="togglePanel")
+      span(
+        v-text="category.name"
+        :class="{ 'selected': selected.category === category.id }"
+        @click="changeQuery(['subcategory'], { category: category.id })")
+
+      .category__more(v-if="category.subs" @click="panel = !panel")
         img.small-icon(
           :class="{ open: panel }"
           src="~/assets/icons/arrow.svg"
           alt="OpenSubcategoryIcon")
 
     .category__panel(v-if="category.subs" v-collapse:200="panel")
-      nuxt-link.subcategory(
+      span.subcategory(
         v-for="subcategory in category.subs"
+        v-text="subcategory.title"
         :key="'subcategory-' + subcategory.id"
-        :to="`?category=${category.id}&subcategory=${subcategory.id}`"
-      ) {{subcategory.title}}
+        :class="{ 'selected': selected.subcategory === subcategory.id }"
+        @click="changeQuery(['category'], { subcategory: subcategory.id })")
 </template>
 
 <script>
 import { defineComponent, ref } from '@vue/composition-api'
+import { useQuery } from '~/composables/query'
 
 export default defineComponent({
   props: {
@@ -25,11 +31,14 @@ export default defineComponent({
       type: Object,
       required: true,
     },
+    selected: {
+      type: Object,
+      default: () => ({}),
+    },
   },
   setup() {
-    const panel = ref(false)
-    const togglePanel = () => (panel.value = !panel.value)
-    return { panel, togglePanel }
+    const { changeQuery } = useQuery()
+    return { panel: ref(false), changeQuery }
   },
 })
 </script>
@@ -39,7 +48,8 @@ export default defineComponent({
 .category {
   position: relative;
 
-  a:hover {
+  span:hover {
+    cursor: pointer;
     color: var(--accent);
   }
 
@@ -50,10 +60,14 @@ export default defineComponent({
     height: 30px;
     font-size: 16px;
 
-    a {
+    span {
       display: flex;
       align-items: center;
       height: 30px;
+    }
+
+    .selected {
+      color: var(--accent);
     }
   }
 

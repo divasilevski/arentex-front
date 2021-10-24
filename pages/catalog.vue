@@ -5,7 +5,7 @@
       .catalog__space
       .catalog__header
         CatalogSort
-        CatalogTags
+        CatalogTags(:categories="categories")
       CatalogFilter(:categories="categories")
       .catalog__grid
         CatalogGrid(:cards="products")
@@ -14,8 +14,9 @@
 </template>
 
 <script>
-import { defineComponent } from '@nuxtjs/composition-api'
+import { defineComponent, useContext, watch } from '@nuxtjs/composition-api'
 import { api, asyncRequest } from '~/assets/scripts/api'
+import { useQuery } from '~/composables/query'
 
 export default defineComponent({
   async asyncData(ctx) {
@@ -23,6 +24,15 @@ export default defineComponent({
     const [products, categories] = await asyncRequest(ctx, requests)
     return { products, categories }
   },
+  setup() {
+    const { query } = useQuery()
+    // const context = useContext();
+
+    // watch(query, () => {
+    //   console.log(query);
+    // })
+    
+  }
 })
 </script>
 

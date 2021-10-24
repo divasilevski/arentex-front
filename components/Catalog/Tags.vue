@@ -3,27 +3,51 @@
     .tag(
       v-for="(tag, index) in tags"
       :key="'tag-' + index"
-      @click="deleteTagHandler(tag.title)")
+      @click="changeQuery([tag.key])")
       .tag__value {{ tag.value }}
       img(src="~/assets/icons/close-black.svg" alt="CloseIcon")
 
 </template>
 
 .<script>
-import { defineComponent, ref } from '@vue/composition-api'
+import { defineComponent, computed } from '@nuxtjs/composition-api'
+import { useQuery } from '~/composables/query'
 
 export default defineComponent({
-  setup() {
-    const tags = ref([
-      { title: 'Категория', value: 'Велосипеды' },
-      { title: 'Поиск', value: 'Зеленый' },
-      { title: 'Цена за день', value: '500 - 1000' },
-    ])
-    const deleteTagHandler = (title) => {
-      console.log(title)
-      tags.value = tags.value.filter((tag) => tag.title !== title)
+  props: {
+    categories: {
+      type: Array,
+      default: () => [],
+    },
+  },
+  setup({ categories }) {
+    const { query, changeQuery } = useQuery()
+
+    // -= Computed =-
+    const tags = computed(() => {
+      return Object.entries(query.value)
+        .map(toHumanTags)
+        .filter(({ value }) => value !== null)
+    })
+
+    // -= Methods =-
+    const toHumanTags = ([key, value]) => {
+      switch (key) {
+        case 'category':
+          const category = categories.find((cat) => `${cat.id}` === value)
+          return { key, value: (category && category.name) || null }
+        case 'sort':
+          return { key, value: null }
+        case 'minprice':
+          return { key, value: 'не менее ' + value + ' ₽' }
+        case 'maxprice':
+          return { key, value: 'до ' + value + ' ₽' }
+        default:
+          return { key, value }
+      }
     }
-    return { tags, deleteTagHandler }
+
+    return { tags, changeQuery }
   },
 })
 </script>

@@ -30,10 +30,8 @@ export default defineComponent({
       default: 0,
     },
   },
-  setup(props) {
-    return {
-      price: ref([props.min, props.max]),
-    }
+  setup({ min, max }) {
+    return { price: ref([min, max]) }
   },
 })
 </script>

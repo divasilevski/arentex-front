@@ -1,31 +1,43 @@
 <template lang="pug">
   .catalog-sort
     .catalog-sort__items
-      nuxt-link.sort-item(
+      .sort-item(
         v-for="(sort, index) in sorts"
+        v-html="sort.title"
         :key="'sort-' + index"
-        :to="`?sort=${sort.id}`"
-        @click.native="selected = sort"
-        :class="{active: selected.id === sort.id}") {{ sort.title }}
+        :class="{ active: selected.id === sort.id }"
+        @click="changeQuery([], { sort: sort.id })")
 
     .catalog-sort__select
-      UISelect(:options="sorts" :selected="selected" @change="selected = $event")
+      UISelect(
+        :options="sorts"
+        :selected="selected"
+        @change="changeQuery([], { sort: $event.id })")
+
 </template>
 
 <script>
-import { defineComponent, ref } from '@vue/composition-api'
+import { defineComponent, computed } from '@nuxtjs/composition-api'
+import { useQuery } from '~/composables/query'
+
+const SORTS = [
+  { id: 'popular', title: 'Популярные' },
+  { id: 'new', title: 'Новинки' },
+  { id: 'cheap', title: 'Сначала дешёвые' },
+  { id: 'expensive', title: 'Сначала дорогие' },
+]
 
 export default defineComponent({
   setup() {
-    return {
-      sorts: [
-        { id: 'popular', title: 'Популярные' },
-        { id: 'new', title: 'Новинки' },
-        { id: 'cheap', title: 'Сначала дешёвые' },
-        { id: 'expensive', title: 'Сначала дорогие' },
-      ],
-      selected: ref({ id: 'popular', title: 'Популярные' }),
-    }
+    const { query, changeQuery } = useQuery()
+
+    // -= Computed =-
+    const selected = computed(() => {
+      const id = query.value.sort
+      return SORTS.find((sort) => sort.id === id) || SORTS[0]
+    })
+
+    return { selected, changeQuery, sorts: SORTS }
   },
 })
 </script>
@@ -50,6 +62,7 @@ export default defineComponent({
       font-weight: 500;
       font-size: 16px;
       line-height: 16px;
+      cursor: pointer;
 
       &.active {
         color: var(--main);

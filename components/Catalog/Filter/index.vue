@@ -10,45 +10,46 @@
         CatalogFilterCategory(
           v-for="category in categories"
           :key="'category-' + category.id"
+          :selected="selectedCategory"
           :category="category")
 
       .catalog-filter__item
         .catalog-filter__title Цена за день
-        CatalogFilterPrice
+        CatalogFilterPrice(@priceChanged="priceChangedHandler")
 </template>
 
 <script>
-import { defineComponent, ref } from '@nuxtjs/composition-api'
-const CATEGORIES = [
-  {
-    id: 1,
-    name: 'Название категории',
-    subs: [
-      { id: 1, name: 'Название подкатегории' },
-      { id: 2, name: 'Название подкатегории' },
-      { id: 3, name: 'Название подкатегории' },
-    ],
-  },
-  {
-    id: 2,
-    name: 'Название категории',
-  },
-  {
-    id: 3,
-    name: 'Название категории',
-    subs: [{ id: 4, name: 'Название подкатегории' }],
-  },
-]
+import { defineComponent, ref, computed } from '@nuxtjs/composition-api'
+import { useQuery } from '~/composables/query'
 
 export default defineComponent({
   props: {
     categories: {
       type: Array,
-      default: () => CATEGORIES,
+      default: () => [],
     },
   },
   setup() {
-    return { filters: ref(false) }
+    const { query, changeQuery } = useQuery()
+
+    // -= Computed =-
+    const selectedCategory = computed(() => {
+      const category = +query.value.category
+      const subcategory = +query.value.subcategory
+
+      if (category) return { category }
+      if (subcategory) {
+        // TO DO: find subcategory
+        return { category, subcategory }
+      }
+    })
+
+    // -= Methods =-
+    const priceChangedHandler = (event) => {
+      changeQuery([], { minprice: event[0], maxprice: event[1] })
+    }
+
+    return { selectedCategory, filters: ref(false), priceChangedHandler }
   },
 })
 </script>
