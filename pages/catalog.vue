@@ -1,5 +1,5 @@
 <template lang="pug">
-  .page.catalog.container
+  .page.catalog.container(ref="pageRef")
     h1 Каталог
     .catalog__main
       .catalog__space
@@ -28,7 +28,6 @@ import { api, asyncRequest } from '~/assets/scripts/api'
 import { useQuery } from '~/composables/query'
 
 const LIMIT = 12
-
 const ACCESS_QUERY = [
   'page',
   'category',
@@ -66,6 +65,7 @@ export default defineComponent({
     return { ssrProducts, categories }
   },
   setup() {
+    const pageRef = ref()
     const products = ref(null)
     const context = useContext()
     const { query, changeQuery } = useQuery()
@@ -83,10 +83,15 @@ export default defineComponent({
     }
 
     const scrollToTop = () => {
-      window && window.scrollTo({ top: 0, behavior: 'smooth' })
+      if (window && pageRef.value) {
+        const top = pageRef.value.offsetTop
+        if (window.scrollY > top) {
+          window.scrollTo({ top, behavior: 'smooth' })
+        }
+      }
     }
 
-    return { products, changePageHandler }
+    return { pageRef, products, changePageHandler }
   },
 })
 </script>

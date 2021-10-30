@@ -3,7 +3,7 @@
     .tag(
       v-for="(tag, index) in tags"
       :key="'tag-' + index"
-      @click="changeQuery([tag.key])")
+      @click="changeQuery(['page', tag.key])")
       .tag__value {{ tag.value }}
       img(src="~/assets/icons/close-black.svg" alt="CloseIcon")
 

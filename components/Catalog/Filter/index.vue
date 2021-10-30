@@ -11,7 +11,8 @@
           v-for="category in categories"
           :key="'category-' + category.id"
           :selected="selectedCategory"
-          :category="category")
+          :category="category"
+          @change="filters = !filters")
 
       .catalog-filter__item
         .catalog-filter__title Цена за день

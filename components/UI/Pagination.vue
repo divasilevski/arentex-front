@@ -68,12 +68,26 @@ export default defineComponent({
     font-size: 16px;
     line-height: 16px;
 
+    @include mw(424px) {
+      width: 32px;
+      height: 32px;
+      margin: 0 2px;
+    }
+
+    @include mw(374px) {
+      width: 28px;
+      height: 28px;
+      margin: 0 1px;
+    }
+
     &:hover {
       color: var(--accent);
     }
 
     &.selected {
       color: var(--main);
+      pointer-events: none;
+      cursor: default;
     }
 
     &.dots {

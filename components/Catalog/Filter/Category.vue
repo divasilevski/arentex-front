@@ -4,7 +4,7 @@
       span(
         v-text="category.name"
         :class="{ 'selected': selected.category === category.id }"
-        @click="changeQuery(['page', 'subcategory'], { category: category.id })")
+        @click="changeQuery(['page', 'subcategory'], { category: category.id }); $emit('change')")
 
       .category__more(v-if="category.subs" @click="panel = !panel")
         img.small-icon(
