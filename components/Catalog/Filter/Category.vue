@@ -4,7 +4,7 @@
       span(
         v-text="category.name"
         :class="{ 'selected': selected.category === category.id }"
-        @click="changeQuery(['subcategory'], { category: category.id })")
+        @click="changeQuery(['page', 'subcategory'], { category: category.id })")
 
       .category__more(v-if="category.subs" @click="panel = !panel")
         img.small-icon(
@@ -18,7 +18,7 @@
         v-text="subcategory.title"
         :key="'subcategory-' + subcategory.id"
         :class="{ 'selected': selected.subcategory === subcategory.id }"
-        @click="changeQuery(['category'], { subcategory: subcategory.id })")
+        @click="changeQuery(['page', 'category'], { subcategory: subcategory.id })")
 </template>
 
 <script>

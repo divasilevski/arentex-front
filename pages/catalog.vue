@@ -8,31 +8,86 @@
         CatalogTags(:categories="categories")
       CatalogFilter(:categories="categories")
       .catalog__grid
-        CatalogGrid(:cards="products")
-        UIButton(block) Показать ещё
+        CatalogGrid(:cards="(products || ssrProducts).items")
+        UIPagination(
+          :total="(products || ssrProducts).total"
+          :skip="(products || ssrProducts).skip"
+          :limit="(products || ssrProducts).limit"
+          @change="changePageHandler")
 
 </template>
 
 <script>
-import { defineComponent, useContext, watch } from '@nuxtjs/composition-api'
+import {
+  defineComponent,
+  useContext,
+  watch,
+  ref,
+} from '@nuxtjs/composition-api'
 import { api, asyncRequest } from '~/assets/scripts/api'
 import { useQuery } from '~/composables/query'
 
+const LIMIT = 12
+
+const ACCESS_QUERY = [
+  'page',
+  'category',
+  'subcategory',
+  'search',
+  'maxprice',
+  'minprice',
+]
+
+const normalizeQuery = (query) => {
+  const queries = { ...query }
+  for (const field in queries) {
+    if (ACCESS_QUERY.includes(field)) {
+      switch (field) {
+        case 'page':
+          queries.skip = (queries.page - 1) * LIMIT
+          delete queries[field]
+          break
+
+        default:
+          break
+      }
+    } else {
+      delete queries[field]
+    }
+  }
+  return { ...queries, limit: LIMIT }
+}
+
 export default defineComponent({
   async asyncData(ctx) {
-    const requests = [api.getProducts, api.getCategories]
-    const [products, categories] = await asyncRequest(ctx, requests)
-    return { products, categories }
+    const queries = normalizeQuery(ctx.query)
+    const requests = [(ax) => api.getProducts(ax, queries), api.getCategories]
+    const [ssrProducts, categories] = await asyncRequest(ctx, requests)
+    return { ssrProducts, categories }
   },
   setup() {
-    const { query } = useQuery()
-    // const context = useContext();
+    const products = ref(null)
+    const context = useContext()
+    const { query, changeQuery } = useQuery()
 
-    // watch(query, () => {
-    //   console.log(query);
-    // })
-    
-  }
+    // -= Watch =-
+    watch(query, async () => {
+      const queries = normalizeQuery(query.value)
+      products.value = await asyncRequest(context, api.getProducts, queries)
+      scrollToTop()
+    })
+
+    // -= Methods =-
+    const changePageHandler = (page) => {
+      changeQuery([], { page })
+    }
+
+    const scrollToTop = () => {
+      window && window.scrollTo({ top: 0, behavior: 'smooth' })
+    }
+
+    return { products, changePageHandler }
+  },
 })
 </script>
 
@@ -57,7 +112,7 @@ export default defineComponent({
   }
 
   .catalog__grid {
-    .button {
+    .pagination {
       margin-top: 30px;
     }
   }

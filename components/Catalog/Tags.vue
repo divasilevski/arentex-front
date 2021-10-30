@@ -36,14 +36,13 @@ export default defineComponent({
         case 'category':
           const category = categories.find((cat) => `${cat.id}` === value)
           return { key, value: (category && category.name) || null }
-        case 'sort':
-          return { key, value: null }
         case 'minprice':
           return { key, value: 'не менее ' + value + ' ₽' }
         case 'maxprice':
           return { key, value: 'до ' + value + ' ₽' }
         default:
-          return { key, value }
+          // Ignore other tags
+          return { key, value: null }
       }
     }
 

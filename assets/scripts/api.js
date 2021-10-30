@@ -1,6 +1,8 @@
+import { serialize } from '~/assets/scripts/utils'
+
 export const api = {
-  getProducts(axios) {
-    return axios.$get('/product/')
+  getProducts(axios, query) {
+    return axios.$get('/product/' + serialize(query))
   },
   getProductById(axios, id) {
     return axios.$get(`/product/${id}/`)
