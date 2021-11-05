@@ -41,6 +41,7 @@ export default {
       if (searchString) {
         querySearch(searchString)
         search.value = ''
+        inputRef.value.$el.querySelector('input').blur()
       }
     }
 
@@ -62,6 +63,10 @@ export default {
     transform: translateY(-50px);
     transition: transform 0.2s linear;
 
+    @include mw(719px) {
+      align-items: center;
+    }
+
     .container {
       width: 100%;
     }
@@ -77,6 +82,7 @@ export default {
 
   &.open {
     height: 60px;
+
     .search-wrapper {
       transform: translateY(0px);
     }

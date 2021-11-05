@@ -17,7 +17,7 @@ export function useCatalog() {
     changeQuery(
       ['page', 'category', 'subcategory', 'maxprice', 'minprice'],
       { search: searchString },
-      'catalog'
+      '/catalog'
     )
   }
   const queryCategory = (id) => {
