@@ -6,7 +6,10 @@
       .catalog__header
         CatalogSort
         CatalogTags(:categories="categories")
-      CatalogFilter(:categories="categories")
+      CatalogFilter(
+        :categories="categories"
+        :minprice="Math.floor((products || ssrProducts).min_price)"
+        :maxprice="Math.floor((products || ssrProducts).max_price)")
       .catalog__grid
         CatalogGrid(:cards="(products || ssrProducts).items")
         UIPagination(
@@ -44,6 +47,14 @@ const normalizeQuery = (query) => {
       switch (field) {
         case 'page':
           queries.skip = (queries.page - 1) * LIMIT
+          delete queries[field]
+          break
+        case 'minprice':
+          queries.min_price = queries[field]
+          delete queries[field]
+          break
+        case 'maxprice':
+          queries.max_price = queries[field]
           delete queries[field]
           break
 

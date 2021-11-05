@@ -12,11 +12,14 @@
           :key="'category-' + category.id"
           :selected="selectedCategory"
           :category="category"
-          @change="filters = !filters")
+          @change="filters = false")
 
       .catalog-filter__item
         .catalog-filter__title Цена за день
-        CatalogFilterPrice(@priceChanged="priceChangedHandler")
+        CatalogFilterPrice(
+          :min="minprice"
+          :max="maxprice"
+          @priceChanged="priceChangedHandler; filters = false")
 </template>
 
 <script>
@@ -28,6 +31,14 @@ export default defineComponent({
     categories: {
       type: Array,
       default: () => [],
+    },
+    minprice: {
+      type: Number,
+      default: 0,
+    },
+    maxprice: {
+      type: Number,
+      default: 1000,
     },
   },
   setup() {

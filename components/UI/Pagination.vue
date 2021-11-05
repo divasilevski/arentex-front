@@ -28,7 +28,6 @@ export default defineComponent({
     },
   },
   setup(props, { emit }) {
-    console.log(props)
     // -= Computed =-
     const page = computed(() => props.skip / props.limit + 1)
     const pages = computed(() => Math.ceil(props.total / props.limit - 1))
