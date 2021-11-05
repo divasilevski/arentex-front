@@ -1,7 +1,7 @@
 <template lang="pug">
   DrawerWrapper(name="menu" v-slot="{ closeHandler }")
     .drawer-menu
-      .drawer-menu__login(@click="closeHandler")
+      .drawer-menu__login(@click="closeHandler(); openAuth();")
         img.icon(src="~/assets/icons/login.svg" alt="LoginIcon")
         | Войти / Регистрация
       nuxt-link.drawer-menu__link(
@@ -22,14 +22,17 @@
 </template>
 
 <script>
-import { defineComponent } from '@vue/composition-api'
+import { defineComponent, useStore } from '@nuxtjs/composition-api'
 import { menu } from '~/assets/scripts/menu.js'
 
 export default defineComponent({
   setup() {
-    return {
-      menu,
-    }
+    const store = useStore()
+
+    // -= Methods =-
+    const openAuth = () => store.commit('toggleOverlay', 'auth')
+
+    return { menu, openAuth }
   },
 })
 </script>

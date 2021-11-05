@@ -37,10 +37,7 @@ export default defineComponent({
     // -= Methods =-
     const productKey = (item) => item.id + item.range.start + item.range.end
 
-    const close = () => {
-      if (store.state.modal.basket) store.commit('toggleModal', 'basket')
-      if (store.state.drawer.basket) store.commit('toggleDrawer', 'basket')
-    }
+    const close = () => store.commit('toggleOverlay', 'basket')
 
     return { formatPrice, basket, isEmpty, productKey, close, ...otherMethods }
   },

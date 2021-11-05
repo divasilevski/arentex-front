@@ -1,5 +1,5 @@
 <template lang="pug">
   .modal-list
     ModalAppBasket
-    ModalAppSearch
+    ModalAppAuth
 </template>

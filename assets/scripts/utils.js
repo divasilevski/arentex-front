@@ -52,3 +52,8 @@ export function serialize(obj) {
     }
   return str.length > 0 ? '?' + str.join('&') : ''
 }
+
+export function screenMore(value) {
+  if (!window) return true
+  return window.innerWidth > value
+}

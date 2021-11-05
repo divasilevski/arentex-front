@@ -7,18 +7,23 @@
         .diviator
         span(v-html="contacts.email")
 
-      .login
+      .login(@click="openAuth")
         img.icon(src="~/assets/icons/login.svg" alt="LoginIcon")
         | Войти / Регистрация
 </template>
 
 <script>
-import { defineComponent } from '@vue/composition-api'
+import { defineComponent, useStore } from '@nuxtjs/composition-api'
 import { contacts } from '~/assets/scripts/contacts.js'
 
 export default defineComponent({
   setup() {
-    return { contacts }
+    const store = useStore()
+
+    // -= Methods =-
+    const openAuth = () => store.commit('toggleOverlay', 'auth')
+
+    return { contacts, openAuth }
   },
 })
 </script>

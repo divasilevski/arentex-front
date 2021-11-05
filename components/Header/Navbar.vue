@@ -1,5 +1,5 @@
 <template lang="pug">
-  nav.navbar(ref="navbarRef")
+  nav.navbar
     .container
       nuxt-link(to="/")
         img.logo(src="~/assets/icons/logo.svg" alt="Arentex")
@@ -23,30 +23,22 @@
 </template>
 
 <script>
-import {
-  defineComponent,
-  useStore,
-  computed,
-  ref,
-} from '@nuxtjs/composition-api'
+import { defineComponent, useStore, computed } from '@nuxtjs/composition-api'
 import { menu } from '~/assets/scripts/menu.js'
 
 export default defineComponent({
   setup() {
-    const navbarRef = ref(null)
     const store = useStore()
     const badge = computed(() => store.state.basket.basket.length > 0)
 
-    const toggleMethod = () => {
-      const isDesktop = navbarRef.value.offsetWidth > 1023
-      return isDesktop ? 'toggleModal' : 'toggleDrawer'
+    // -= Methods =-
+    const openMenu = () => store.commit('toggleDrawer', 'menu')
+    const openBasket = () => store.commit('toggleOverlay', 'basket')
+    const openSearch = () => {
+      /* TO DO */
     }
 
-    const openMenu = () => store.commit('toggleDrawer', 'menu')
-    const openBasket = () => store.commit(toggleMethod(), 'basket')
-    const openSearch = () => store.commit(toggleMethod(), 'search')
-
-    return { menu, badge, openMenu, openBasket, openSearch, navbarRef }
+    return { menu, badge, openMenu, openBasket, openSearch }
   },
 })
 </script>

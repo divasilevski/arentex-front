@@ -1,12 +1,14 @@
+import { screenMore } from '../assets/scripts/utils'
+
 export const state = () => ({
   drawer: {
     menu: false,
     basket: false,
-    search: false,
+    auth: false,
   },
   modal: {
     basket: false,
-    search: false,
+    auth: false,
   },
 })
 
@@ -16,5 +18,12 @@ export const mutations = {
   },
   toggleModal(state, name) {
     state.modal[name] = !state.modal[name]
+  },
+  toggleOverlay(state, name) {
+    const isModal = screenMore(1024)
+    const isOpen = state.drawer[name] || state.modal[name]
+
+    state.modal[name] = isModal && !isOpen
+    state.drawer[name] = !isModal && !isOpen
   },
 }
