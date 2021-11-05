@@ -41,11 +41,11 @@ export default defineComponent({
       default: '',
     },
     min: {
-      type: Number,
+      type: [Number, String],
       default: '',
     },
     max: {
-      type: Number,
+      type: [Number, String],
       default: '',
     },
   },

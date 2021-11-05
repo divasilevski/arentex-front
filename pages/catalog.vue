@@ -16,7 +16,10 @@
           :total="(products || ssrProducts).total"
           :skip="(products || ssrProducts).skip"
           :limit="(products || ssrProducts).limit"
-          @change="changePageHandler")
+          @change="queryPage")
+
+    ModalAppCategory
+    DrawerAppCategory
 
 </template>
 
@@ -29,6 +32,7 @@ import {
 } from '@nuxtjs/composition-api'
 import { api, asyncRequest } from '~/assets/scripts/api'
 import { useQuery } from '~/composables/query'
+import { useCatalog } from '~/composables/catalog'
 
 const LIMIT = 12
 const ACCESS_QUERY = [
@@ -79,7 +83,8 @@ export default defineComponent({
     const pageRef = ref()
     const products = ref(null)
     const context = useContext()
-    const { query, changeQuery } = useQuery()
+    const { query } = useQuery()
+    const { queryPage } = useCatalog()
 
     // -= Watch =-
     watch(query, async () => {
@@ -87,11 +92,6 @@ export default defineComponent({
       products.value = await asyncRequest(context, api.getProducts, queries)
       scrollToTop()
     })
-
-    // -= Methods =-
-    const changePageHandler = (page) => {
-      changeQuery([], { page })
-    }
 
     const scrollToTop = () => {
       if (window && pageRef.value) {
@@ -102,7 +102,7 @@ export default defineComponent({
       }
     }
 
-    return { pageRef, products, changePageHandler }
+    return { pageRef, products, queryPage }
   },
 })
 </script>

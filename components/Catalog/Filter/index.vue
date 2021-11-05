@@ -8,22 +8,30 @@
       .catalog-filter__item
         .catalog-filter__title Категория
         CatalogFilterCategory(
-          v-for="category in categories"
+          v-for="category in categories.slice(0, 7)"
           :key="'category-' + category.id"
           :selected="selectedCategory"
           :category="category"
           @change="filters = false")
+
+        UIButton(@click="openCategory" block light) Все категории
 
       .catalog-filter__item
         .catalog-filter__title Цена за день
         CatalogFilterPrice(
           :min="minprice"
           :max="maxprice"
-          @priceChanged="priceChangedHandler; filters = false")
+          @priceChanged="queryPrice($event); filters = false")
 </template>
 
 <script>
-import { defineComponent, ref, computed } from '@nuxtjs/composition-api'
+import {
+  defineComponent,
+  computed,
+  useStore,
+  ref,
+} from '@nuxtjs/composition-api'
+import { useCatalog } from '~/composables/catalog'
 import { useQuery } from '~/composables/query'
 
 export default defineComponent({
@@ -42,7 +50,9 @@ export default defineComponent({
     },
   },
   setup() {
-    const { query, changeQuery } = useQuery()
+    const store = useStore()
+    const { queryPrice } = useCatalog()
+    const { query } = useQuery()
 
     // -= Computed =-
     const selectedCategory = computed(() => {
@@ -57,11 +67,15 @@ export default defineComponent({
     })
 
     // -= Methods =-
-    const priceChangedHandler = (event) => {
-      changeQuery([], { minprice: event[0], maxprice: event[1] })
-    }
+    const openCategory = () => store.commit('toggleOverlay', 'category')
 
-    return { selectedCategory, filters: ref(false), priceChangedHandler }
+    return {
+      selectedCategory,
+      filters: ref(false),
+
+      queryPrice,
+      openCategory,
+    }
   },
 })
 </script>

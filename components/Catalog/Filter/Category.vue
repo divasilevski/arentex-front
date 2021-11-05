@@ -4,7 +4,7 @@
       span(
         v-text="category.name"
         :class="{ 'selected': selected.category === category.id }"
-        @click="changeQuery(['page', 'subcategory'], { category: category.id }); $emit('change')")
+        @click="queryCategory(category.id); $emit('change')")
 
       .category__more(v-if="category.subs" @click="panel = !panel")
         img.small-icon(
@@ -18,12 +18,13 @@
         v-text="subcategory.title"
         :key="'subcategory-' + subcategory.id"
         :class="{ 'selected': selected.subcategory === subcategory.id }"
-        @click="changeQuery(['page', 'category'], { subcategory: subcategory.id })")
+        @click="querySubcategory(subcategory.id); $emit('change')")
+
 </template>
 
 <script>
 import { defineComponent, ref } from '@vue/composition-api'
-import { useQuery } from '~/composables/query'
+import { useCatalog } from '~/composables/catalog'
 
 export default defineComponent({
   props: {
@@ -37,8 +38,8 @@ export default defineComponent({
     },
   },
   setup() {
-    const { changeQuery } = useQuery()
-    return { panel: ref(false), changeQuery }
+    const { queryCategory, querySubcategory } = useCatalog()
+    return { panel: ref(false), queryCategory, querySubcategory }
   },
 })
 </script>

@@ -3,7 +3,7 @@
     .tag(
       v-for="(tag, index) in tags"
       :key="'tag-' + index"
-      @click="changeQuery(['page', tag.key])")
+      @click="queryTag(tag.key)")
       .tag__value {{ tag.value }}
       img(src="~/assets/icons/close-black.svg" alt="CloseIcon")
 
@@ -11,6 +11,7 @@
 
 .<script>
 import { defineComponent, computed } from '@nuxtjs/composition-api'
+import { useCatalog } from '~/composables/catalog'
 import { useQuery } from '~/composables/query'
 
 export default defineComponent({
@@ -21,32 +22,17 @@ export default defineComponent({
     },
   },
   setup({ categories }) {
-    const { query, changeQuery } = useQuery()
+    const { query } = useQuery()
+    const { queryTag, toHumanTags } = useCatalog()
 
     // -= Computed =-
     const tags = computed(() => {
       return Object.entries(query.value)
-        .map(toHumanTags)
+        .map((el) => toHumanTags(el, { categories }))
         .filter(({ value }) => value !== null)
     })
 
-    // -= Methods =-
-    const toHumanTags = ([key, value]) => {
-      switch (key) {
-        case 'category':
-          const category = categories.find((cat) => `${cat.id}` === value)
-          return { key, value: (category && category.name) || null }
-        case 'minprice':
-          return { key, value: 'не менее ' + value + ' ₽' }
-        case 'maxprice':
-          return { key, value: 'до ' + value + ' ₽' }
-        default:
-          // Ignore other tags
-          return { key, value: null }
-      }
-    }
-
-    return { tags, changeQuery }
+    return { tags, queryTag }
   },
 })
 </script>

@@ -4,12 +4,15 @@ export const state = () => ({
   drawer: {
     menu: false,
     basket: false,
+    category: false,
     auth: false,
   },
   modal: {
     basket: false,
+    category: false,
     auth: false,
   },
+  search: false,
 })
 
 export const mutations = {
@@ -25,5 +28,8 @@ export const mutations = {
 
     state.modal[name] = isModal && !isOpen
     state.drawer[name] = !isModal && !isOpen
+  },
+  toggleSearch(state) {
+    state.search = !state.search
   },
 }

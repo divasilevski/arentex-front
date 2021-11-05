@@ -16,6 +16,7 @@
         .menu__item.search
           .menu__icon(@click="openSearch")
             img.icon(src="~/assets/icons/search.svg" alt="SearchIcon")
+          .search-active(:class="{ open: search }")
         .menu__item.only-not-desktop
           .menu__icon(@click="openMenu")
             img.icon(src="~/assets/icons/menu.svg" alt="MenuIcon")
@@ -29,16 +30,17 @@ import { menu } from '~/assets/scripts/menu.js'
 export default defineComponent({
   setup() {
     const store = useStore()
+
+    // -= Computed =-
     const badge = computed(() => store.state.basket.basket.length > 0)
+    const search = computed(() => store.state.search)
 
     // -= Methods =-
     const openMenu = () => store.commit('toggleDrawer', 'menu')
     const openBasket = () => store.commit('toggleOverlay', 'basket')
-    const openSearch = () => {
-      /* TO DO */
-    }
+    const openSearch = () => store.commit('toggleSearch')
 
-    return { menu, badge, openMenu, openBasket, openSearch }
+    return { menu, badge, search, openMenu, openBasket, openSearch }
   },
 })
 </script>
@@ -101,6 +103,7 @@ export default defineComponent({
         }
 
         &.search {
+          position: relative;
           padding-right: 0;
 
           @include mw(1024px) {
@@ -108,6 +111,24 @@ export default defineComponent({
           }
           @include mw(500px) {
             padding-right: 12px;
+          }
+
+          .search-active {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 62px;
+            height: 0px;
+            background: var(--accent);
+            transition: height 0.2s linear;
+
+            @include mw(500px) {
+              width: 100%;
+            }
+
+            &.open {
+              height: 4px;
+            }
           }
         }
 

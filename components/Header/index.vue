@@ -2,4 +2,5 @@
   header
     HeaderTopbar
     HeaderNavbar
+    HeaderSearch
 </template>

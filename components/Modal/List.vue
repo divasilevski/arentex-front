@@ -2,4 +2,5 @@
   .modal-list
     ModalAppBasket
     ModalAppAuth
+
 </template>
