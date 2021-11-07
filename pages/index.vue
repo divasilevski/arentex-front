@@ -1,20 +1,15 @@
 <template lang="pug">
-  .container 
-    h1 Lorem
+  .main.page.container 
+    MainPopular
 
 </template>
-
-
-
 
 <script>
 import { defineComponent } from '@vue/composition-api'
 
 export default defineComponent({
   setup() {
-    return {
-      welcome: 'Всем приветик)))',
-    }
+    return {}
   },
 })
 </script>
