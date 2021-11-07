@@ -23,13 +23,12 @@
         .catalog-filter__title Цена за день
         CatalogFilterPrice(
           :min="minprice"
-          :max="maxprice"
-          @priceChanged="queryPrice")
+          :max="maxprice")
+
 </template>
 
 <script>
 import { defineComponent, useStore, ref } from '@nuxtjs/composition-api'
-import { useCatalog } from '~/composables/catalog'
 
 export default defineComponent({
   props: {
@@ -48,15 +47,12 @@ export default defineComponent({
   },
   setup() {
     const store = useStore()
-    const { queryPrice } = useCatalog()
 
     // -= Methods =-
     const openCategory = () => store.commit('toggleOverlay', 'category')
 
     return {
       filters: ref(false),
-
-      queryPrice,
       openCategory,
     }
   },

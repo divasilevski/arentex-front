@@ -4,8 +4,8 @@
       :type="type"
       :value="value"
       :placeholder="placeholder"
-      @focus="focus = true"
-      @blur="focus = false"
+      @focus="focus = true; $emit('focus', $event)"
+      @blur="focus = false; $emit('blur', $event)"
       :min="min" :max="max"
       @input="$emit('input', $event.target.value)")
     .input__error(v-if="error") {{ error }}

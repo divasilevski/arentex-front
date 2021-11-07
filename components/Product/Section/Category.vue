@@ -33,7 +33,7 @@ export default defineComponent({
   setup({ category, subcategory }) {
     return {
       toCategory: `/catalog?category=${category.id}`,
-      toSubcategory: `/catalog?category=${category.id}&subcategory=${subcategory.id}`,
+      toSubcategory: `/catalog?subcategory=${subcategory.id}`,
     }
   },
 })

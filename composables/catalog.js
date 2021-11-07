@@ -10,8 +10,12 @@ export function useCatalog() {
   const queryPage = (page) => {
     changeQuery([], { page })
   }
-  const queryPrice = (prices) => {
-    changeQuery([], { minprice: prices[0], maxprice: prices[1] })
+  const queryPrice = (prices, { min, max }) => {
+    const added = {}
+    console.log(prices[0], min)
+    if (prices[0] !== min) added.minprice = prices[0]
+    if (prices[1] !== max) added.maxprice = prices[1]
+    Object.keys(added).length && changeQuery([], added)
   }
   const querySearch = (searchString) => {
     changeQuery(

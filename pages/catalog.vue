@@ -8,8 +8,8 @@
         CatalogTags(:categories="categories")
       CatalogFilter(
         :categories="categories"
-        :minprice="Math.floor((products || ssrProducts).min_price)"
-        :maxprice="Math.floor((products || ssrProducts).max_price)")
+        :minprice="Math.floor((products || ssrProducts).total_min_price)"
+        :maxprice="Math.floor((products || ssrProducts).total_max_price)")
       .catalog__grid
         CatalogGrid(:cards="(products || ssrProducts).items")
         UIPagination(

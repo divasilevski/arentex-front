@@ -2,21 +2,33 @@
   .price-filter
     VueSlider(
       v-model="price"
-      @change="$emit('priceChanged', $event)"
+      @change="changeSlider"
       :enable-cross="false"
       :tooltip="'none'"
       :min="min"
       :max="max"
       lazy)
     .price-filter__inputs
-      UIInput(v-model.number="price[0]" type="number" :min="min" :max="max")
-      UIInput(v-model.number="price[1]" type="number" :min="min" :max="max")
+      UIInput(
+        type="number"
+        :value="price[0]"
+        :min="min"
+        :max="max"
+        @blur="blurMin")
+      UIInput(
+        type="number"
+        :value="price[1]"
+        :min="min"
+        :max="max"
+        @blur="blurMax")
 
 </template>
 
 <script>
-import { defineComponent, ref } from '@vue/composition-api'
+import { defineComponent, computed } from '@vue/composition-api'
 import VueSlider from 'vue-slider-component/dist-css/vue-slider-component.umd.min.js'
+import { useCatalog } from '~/composables/catalog'
+import { useQuery } from '~/composables/query'
 
 export default defineComponent({
   components: { VueSlider },
@@ -30,8 +42,32 @@ export default defineComponent({
       default: 0,
     },
   },
-  setup({ min, max }) {
-    return { price: ref([min, max]) }
+  setup(props) {
+    const { queryPrice } = useCatalog()
+    const { query } = useQuery()
+
+    // -= Computed =-
+    const price = computed(() => {
+      return [
+        query.value.minprice || props.min,
+        query.value.maxprice || props.max,
+      ]
+    })
+
+    // -= Methods =-
+    const blurMin = (event) => {
+      const value = event.target.value
+      queryPrice([value, price.value[1]], props)
+    }
+    const blurMax = (event) => {
+      const value = event.target.value
+      queryPrice([price.value[0], value], props)
+    }
+    const changeSlider = (event) => {
+      queryPrice(event, props)
+    }
+
+    return { price, changeSlider, blurMin, blurMax }
   },
 })
 </script>
