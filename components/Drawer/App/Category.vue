@@ -1,16 +1,28 @@
 <template lang="pug">
   DrawerWrapper(name="category")
     .drawer-category
-      CategoryList
+      CategoryOverlay(:categories="categories")
 </template>
+
+<script>
+import { defineComponent } from '@vue/composition-api'
+
+export default defineComponent({
+  props: {
+    categories: {
+      type: Array,
+      default: () => [],
+    },
+  },
+})
+</script>
 
 <style lang="scss" scoped>
 .drawer-category {
   height: calc(100% - 80px);
-  padding: 30px;
 
   @include mw(500px) {
-    height: calc(100% - 60px);
+    height: 100%;
   }
 }
 </style>

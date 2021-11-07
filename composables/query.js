@@ -10,7 +10,7 @@ export function useQuery() {
   // -= Methods =-
   const changeQuery = (removed = [], added = {}, path = null) => {
     const query = JSON.parse(JSON.stringify(route.value.query))
-    for (const key of removed) delete query[key]
+    for (const key of [...removed, ...Object.keys(added)]) delete query[key]
     router.push({
       path: path || route.value.path,
       query: { ...query, ...added },

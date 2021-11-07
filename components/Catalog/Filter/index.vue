@@ -1,38 +1,35 @@
 <template lang="pug">
   .catalog-filter(:class="{ open: filters }")
-    .catalog-filter__header(@click="filters = !filters") Фильтры
-      .filter-icon
-        img(src="~/assets/icons/filter.svg" alt="FilterIcon")
+    .catalog-filter__header
+      .catalog-filter__filter(@click="filters = !filters") Фильтры
+        .filter-icon
+          img(src="~/assets/icons/filter.svg" alt="FilterIcon")
+
+      .catalog-filter__filter.catalog-filter__filter--category(@click="openCategory")
+        span Все категории
+        .filter-icon
+          img(src="~/assets/icons/category.svg" alt="CategoryIcon")
 
     .catalog-filter__items
       .catalog-filter__item
         .catalog-filter__title Категория
-        CatalogFilterCategory(
-          v-for="category in categories.slice(0, 7)"
-          :key="'category-' + category.id"
-          :selected="selectedCategory"
-          :category="category"
-          @change="filters = false")
+        CategoryList(:categories="categories.slice(0, 6)")
 
-        UIButton(@click="openCategory" block light) Все категории
+        .catalog-filter__category-more(@click="openCategory") Все категории
+          .icon
+            img(src="~/assets/icons/category.svg" alt="CategoryIcon")
 
       .catalog-filter__item
         .catalog-filter__title Цена за день
         CatalogFilterPrice(
           :min="minprice"
           :max="maxprice"
-          @priceChanged="queryPrice($event); filters = false")
+          @priceChanged="queryPrice")
 </template>
 
 <script>
-import {
-  defineComponent,
-  computed,
-  useStore,
-  ref,
-} from '@nuxtjs/composition-api'
+import { defineComponent, useStore, ref } from '@nuxtjs/composition-api'
 import { useCatalog } from '~/composables/catalog'
-import { useQuery } from '~/composables/query'
 
 export default defineComponent({
   props: {
@@ -52,25 +49,11 @@ export default defineComponent({
   setup() {
     const store = useStore()
     const { queryPrice } = useCatalog()
-    const { query } = useQuery()
-
-    // -= Computed =-
-    const selectedCategory = computed(() => {
-      const category = +query.value.category
-      const subcategory = +query.value.subcategory
-
-      if (category) return { category }
-      if (subcategory) {
-        // TO DO: find subcategory
-        return { category, subcategory }
-      }
-    })
 
     // -= Methods =-
     const openCategory = () => store.commit('toggleOverlay', 'category')
 
     return {
-      selectedCategory,
       filters: ref(false),
 
       queryPrice,
@@ -90,47 +73,66 @@ export default defineComponent({
       display: block;
     }
 
-    .catalog-filter__header .filter-icon {
+    .catalog-filter__header .catalog-filter__filter .filter-icon {
       transform: rotate(0deg);
     }
   }
 
   .catalog-filter__header {
     display: none;
-    align-items: center;
-    justify-content: space-between;
-    width: 100%;
-    padding: 0 15px;
-    font-size: 16px;
-    line-height: 16px;
-    background-color: var(--light-gray);
-    border-radius: 38px;
-    height: 38px;
-    cursor: pointer;
-    user-select: none;
-    font-weight: 500;
-    margin-bottom: 20px;
 
     @include mw(950px) {
       display: flex;
+      gap: 30px;
     }
 
-    &:hover {
-      background-color: var(--light-selected);
-    }
-
-    .filter-icon {
+    .catalog-filter__filter {
       display: flex;
-      justify-content: center;
       align-items: center;
-      transition: 0.3s;
-      transform: rotate(-180deg);
-      width: 16px;
-      height: 16px;
+      justify-content: space-between;
+      width: 100%;
+      padding: 0 15px;
+      font-size: 16px;
+      line-height: 16px;
+      background-color: var(--light-gray);
+      border-radius: 38px;
+      height: 38px;
+      cursor: pointer;
+      user-select: none;
+      font-weight: 500;
+      margin-bottom: 20px;
 
-      img {
-        width: 17px;
-        height: 17px;
+      &:hover {
+        background-color: var(--light-selected);
+      }
+
+      .filter-icon {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        transition: 0.3s;
+        transform: rotate(-180deg);
+        width: 16px;
+        height: 16px;
+
+        img {
+          width: 17px;
+          height: 17px;
+        }
+      }
+    }
+
+    .catalog-filter__filter--category {
+      @include mw(450px) {
+        width: auto;
+
+        span {
+          display: none;
+        }
+      }
+
+      .filter-icon {
+        transform: rotate(0deg);
       }
     }
   }
@@ -143,7 +145,7 @@ export default defineComponent({
     }
 
     .catalog-filter__item {
-      padding-bottom: 20px;
+      padding-bottom: 30px;
 
       .catalog-filter__title {
         position: relative;
@@ -151,6 +153,46 @@ export default defineComponent({
         font-size: 20px;
         line-height: 20px;
         margin-bottom: 15px;
+      }
+
+      .catalog-filter__category-more {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        width: 100%;
+        padding: 0 15px;
+        font-size: 16px;
+        line-height: 16px;
+        background-color: var(--light-gray);
+        border-radius: 38px;
+        height: 38px;
+        cursor: pointer;
+        user-select: none;
+        font-weight: 500;
+        margin-top: 20px;
+
+        @include mw(950px) {
+          display: none;
+          margin-top: 0px;
+        }
+
+        &:hover {
+          background-color: var(--light-selected);
+        }
+
+        .icon {
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          transition: 0.3s;
+          width: 16px;
+          height: 16px;
+
+          img {
+            width: 17px;
+            height: 17px;
+          }
+        }
       }
     }
   }

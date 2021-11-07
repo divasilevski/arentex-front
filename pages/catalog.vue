@@ -18,8 +18,8 @@
           :limit="(products || ssrProducts).limit"
           @change="queryPage")
 
-    ModalAppCategory
-    DrawerAppCategory
+    ModalAppCategory(:categories="categories")
+    DrawerAppCategory(:categories="categories")
 
 </template>
 
@@ -42,6 +42,7 @@ const ACCESS_QUERY = [
   'search',
   'maxprice',
   'minprice',
+  'sort',
 ]
 
 const normalizeQuery = (query) => {
@@ -69,7 +70,7 @@ const normalizeQuery = (query) => {
       delete queries[field]
     }
   }
-  return { ...queries, limit: LIMIT }
+  return { sort: 'popular', ...queries, limit: LIMIT }
 }
 
 export default defineComponent({

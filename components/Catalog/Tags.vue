@@ -14,6 +14,12 @@ import { defineComponent, computed } from '@nuxtjs/composition-api'
 import { useCatalog } from '~/composables/catalog'
 import { useQuery } from '~/composables/query'
 
+function getSubcategories(categories) {
+  return categories.reduce((acc, cur) => {
+    return [...acc, ...(cur.subcategories || [])]
+  }, [])
+}
+
 export default defineComponent({
   props: {
     categories: {
@@ -26,9 +32,12 @@ export default defineComponent({
     const { queryTag, toHumanTags } = useCatalog()
 
     // -= Computed =-
+    const subcategories = computed(() => getSubcategories(categories) || [])
+
     const tags = computed(() => {
+      const payload = { categories, subcategories: subcategories.value }
       return Object.entries(query.value)
-        .map((el) => toHumanTags(el, { categories }))
+        .map((el) => toHumanTags(el, payload))
         .filter(({ value }) => value !== null)
     })
 
@@ -44,10 +53,9 @@ export default defineComponent({
     display: inline-flex;
     align-items: center;
     font-family: inherit;
-    padding: 0 15px;
+    padding: 5px 15px;
     background-color: var(--light-gray);
     border-radius: 38px;
-    height: 26px;
     font-size: 14px;
     line-height: 16px;
     margin-right: 15px;

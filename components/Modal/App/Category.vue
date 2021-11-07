@@ -1,14 +1,27 @@
 <template lang="pug">
   ModalWrapper(name="category")
     .modal-category
-      CategoryList
+      CategoryOverlay(:categories="categories")
 
 </template>
+
+<script>
+import { defineComponent } from '@vue/composition-api'
+
+export default defineComponent({
+  props: {
+    categories: {
+      type: Array,
+      default: () => [],
+    },
+  },
+})
+</script>
+
 
 <style lang="scss" scoped>
 .modal-category {
   height: 100%;
-  padding: 30px;
 }
 </style>
 

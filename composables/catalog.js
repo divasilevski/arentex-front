@@ -28,11 +28,14 @@ export function useCatalog() {
   }
 
   // -= Other Methods =-
-  const toHumanTags = ([key, value], { categories }) => {
+  const toHumanTags = ([key, value], { categories, subcategories }) => {
     switch (key) {
       case 'category':
         const category = categories.find((cat) => `${cat.id}` === value)
         return { key, value: (category && category.name) || null }
+      case 'subcategory':
+        const subcategory = subcategories.find((cat) => `${cat.id}` === value)
+        return { key, value: (subcategory && subcategory.name) || null }
       case 'minprice':
         return { key, value: 'не менее ' + value + ' ₽' }
       case 'maxprice':

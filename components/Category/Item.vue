@@ -1,29 +1,29 @@
 <template lang="pug">
-  .category
+  .category-item
     .category__item
       span(
         v-text="category.name"
-        :class="{ 'selected': selected.category === category.id }"
-        @click="queryCategory(category.id); $emit('change')")
+        :data-category="category.id"
+        @click="onClickCategory(category.id)")
 
-      .category__more(v-if="category.subs" @click="panel = !panel")
+      .category__more(v-if="category.subcategories" @click="panel = !panel")
         img.small-icon(
           :class="{ open: panel }"
           src="~/assets/icons/arrow.svg"
           alt="OpenSubcategoryIcon")
 
-    .category__panel(v-if="category.subs" v-collapse:200="panel")
+    .category__panel(v-if="category.subcategories" v-collapse:200="panel")
       span.subcategory(
-        v-for="subcategory in category.subs"
-        v-text="subcategory.title"
+        v-for="subcategory in category.subcategories"
+        v-text="subcategory.name"
         :key="'subcategory-' + subcategory.id"
-        :class="{ 'selected': selected.subcategory === subcategory.id }"
-        @click="querySubcategory(subcategory.id); $emit('change')")
+        :data-subcategory="subcategory.id"
+        @click="onClickSubcategory(subcategory.id)")
 
 </template>
 
 <script>
-import { defineComponent, ref } from '@vue/composition-api'
+import { defineComponent, ref } from '@nuxtjs/composition-api'
 import { useCatalog } from '~/composables/catalog'
 
 export default defineComponent({
@@ -32,22 +32,34 @@ export default defineComponent({
       type: Object,
       required: true,
     },
-    selected: {
-      type: Object,
-      default: () => ({}),
-    },
   },
-  setup() {
+  setup(_, { emit }) {
     const { queryCategory, querySubcategory } = useCatalog()
-    return { panel: ref(false), queryCategory, querySubcategory }
+    const panel = ref(false)
+
+    // -= Methods =-
+    const onClickCategory = (id) => {
+      queryCategory(id)
+      emit('change')
+    }
+    const onClickSubcategory = (id) => {
+      querySubcategory(id)
+      emit('change')
+    }
+
+    return { panel, onClickCategory, onClickSubcategory }
   },
 })
 </script>
 
 
 <style lang="scss" scoped>
-.category {
+.category-item {
   position: relative;
+
+  &:not(:last-child) {
+    margin-bottom: 8px;
+  }
 
   span:hover {
     cursor: pointer;
@@ -57,14 +69,13 @@ export default defineComponent({
   .category__item {
     display: flex;
     justify-content: space-between;
-    align-items: center;
-    height: 30px;
+    align-items: flex-start;
     font-size: 16px;
 
     span {
       display: flex;
       align-items: center;
-      height: 30px;
+      padding-top: 4px;
     }
 
     .selected {
@@ -87,6 +98,16 @@ export default defineComponent({
       &.open {
         transform: rotate(0deg);
       }
+    }
+
+    .badge {
+      position: absolute;
+      right: -5px;
+      top: -3px;
+      width: 6px;
+      height: 6px;
+      border-radius: 6px;
+      background: var(--accent);
     }
 
     &:hover {
@@ -113,9 +134,19 @@ export default defineComponent({
     .subcategory {
       display: flex;
       align-items: center;
-      height: 30px;
       font-size: 16px;
       width: fit-content;
+      margin-top: 6px;
+      font-size: 15px;
+
+      &:hover {
+        cursor: pointer;
+        color: var(--accent);
+      }
+
+      &.selected {
+        color: var(--accent);
+      }
     }
   }
 }
