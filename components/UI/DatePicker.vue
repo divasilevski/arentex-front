@@ -52,6 +52,7 @@ export default defineComponent({
 
       // -= Methods =-
       toHumanDate: (stringDate) => {
+        console.log('Четкая дата:', stringDate)
         const date = getDateFromString(stringDate, '.')
         return getHumanDate(date)
       },

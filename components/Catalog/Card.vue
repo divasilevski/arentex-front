@@ -43,6 +43,7 @@ export default defineComponent({
   border-radius: 10px;
   overflow: hidden;
   cursor: pointer;
+  width: min(100%, 435px);
 
   &:hover {
     .catalog-card__title {
