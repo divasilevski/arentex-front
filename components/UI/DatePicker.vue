@@ -52,8 +52,7 @@ export default defineComponent({
 
       // -= Methods =-
       toHumanDate: (stringDate) => {
-        console.log('Четкая дата:', stringDate)
-        const date = getDateFromString(stringDate, '.')
+        const date = getDateFromString(stringDate, stringDate[2])
         return getHumanDate(date)
       },
       evalColumns: () => {
