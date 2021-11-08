@@ -82,6 +82,7 @@ export default defineComponent({
 
       @include mw(850px) {
         margin-top: 20px;
+        margin-bottom: 20px;
       }
 
       a {

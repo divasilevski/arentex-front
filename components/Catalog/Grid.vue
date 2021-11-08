@@ -6,6 +6,7 @@
       :title="card.title"
       :price="card.price"
       :image="card.thumbnail")
+    CatalogBlank(v-if="cards.length === 0")
 
 </template>
 

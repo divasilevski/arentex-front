@@ -1,31 +1,24 @@
 <template lang="pug">
   .price-filter
     VueSlider(
-      v-model="price"
-      @change="changeSlider"
+      :value="price"
       :enable-cross="false"
       :tooltip="'none'"
       :min="min"
       :max="max"
+      @change="changeSlider"
+      @dragging="draggingSlider"
+      @drag-end="dragEndSlider"
+      silent
       lazy)
     .price-filter__inputs
-      UIInput(
-        type="number"
-        :value="price[0]"
-        :min="min"
-        :max="max"
-        @blur="blurMin")
-      UIInput(
-        type="number"
-        :value="price[1]"
-        :min="min"
-        :max="max"
-        @blur="blurMax")
+      UIInput( type="number" :value="price[0]" :min="min" :max="max" @blur="blurMin")
+      UIInput( type="number" :value="price[1]" :min="min" :max="max" @blur="blurMax")
 
 </template>
 
 <script>
-import { defineComponent, computed } from '@vue/composition-api'
+import { defineComponent, watch, ref, computed } from '@vue/composition-api'
 import VueSlider from 'vue-slider-component/dist-css/vue-slider-component.umd.min.js'
 import { useCatalog } from '~/composables/catalog'
 import { useQuery } from '~/composables/query'
@@ -45,14 +38,26 @@ export default defineComponent({
   setup(props) {
     const { queryPrice } = useCatalog()
     const { query } = useQuery()
+    const price = ref([props.min, props.max])
 
     // -= Computed =-
-    const price = computed(() => {
-      return [
-        query.value.minprice || props.min,
-        query.value.maxprice || props.max,
-      ]
-    })
+    const propsWatcher = computed(
+      () => props.min.toString() + props.max.toString()
+    )
+
+    //  -= Watch =-
+    watch(
+      [query, propsWatcher],
+      () => {
+        const minCond = (query.value.minprice || -Infinity) < props.min
+        const maxCond = (query.value.maxprice || Infinity) > props.max
+        price.value = [
+          minCond ? props.min : +query.value.minprice,
+          maxCond ? props.max : +query.value.maxprice,
+        ]
+      },
+      { immediate: true }
+    )
 
     // -= Methods =-
     const blurMin = (event) => {
@@ -66,8 +71,21 @@ export default defineComponent({
     const changeSlider = (event) => {
       queryPrice(event, props)
     }
+    const draggingSlider = (event) => {
+      price.value = event
+    }
+    const dragEndSlider = () => {
+      queryPrice(price.value, props)
+    }
 
-    return { price, changeSlider, blurMin, blurMax }
+    return {
+      price,
+      changeSlider,
+      draggingSlider,
+      dragEndSlider,
+      blurMin,
+      blurMax,
+    }
   },
 })
 </script>

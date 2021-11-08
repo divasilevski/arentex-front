@@ -30,8 +30,11 @@ export default defineComponent({
   setup(props, { emit }) {
     // -= Computed =-
     const page = computed(() => props.skip / props.limit + 1)
-    const pages = computed(() => Math.ceil(props.total / props.limit - 1))
-    const items = computed(() => pagination(page.value, pages.value))
+    const pages = computed(() => Math.ceil(props.total / props.limit))
+    const items = computed(() => {
+      const calculation = pagination(page.value, pages.value)
+      return calculation.length < 2 ? [] : calculation
+    })
 
     return {
       page,
