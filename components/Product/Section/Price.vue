@@ -29,6 +29,7 @@ import {
 } from '@nuxtjs/composition-api'
 import { getDaysCount, compareRanges } from '~/assets/scripts/date'
 import { num2str, formatPrice } from '~/assets/scripts/utils'
+import { useToast } from '~/composables/toast'
 
 export default defineComponent({
   props: {
@@ -56,6 +57,7 @@ export default defineComponent({
     }
 
     const store = useStore()
+    const toast = useToast()
     const basket = computed(() => store.state.basket.basket)
     const index = computed(() => basket.value.findIndex(byIdAndRange))
     const count = computed(() =>
@@ -69,6 +71,7 @@ export default defineComponent({
           field: 'count',
           value: count.value + 1,
         })
+        toast.push('Корзина обновлена')
       } else {
         store.commit('basket/add', {
           thumbnail: product.thumbnail,
@@ -78,6 +81,7 @@ export default defineComponent({
           id: product.id,
           count: 1,
         })
+        toast.push(`${title.value} теперь в корзине!`)
       }
     }
 

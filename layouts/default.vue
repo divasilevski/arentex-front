@@ -7,6 +7,7 @@
 
     DrawerList
     ModalList
+    ToastList
 </template>
 
 <style lang="scss" scoped>

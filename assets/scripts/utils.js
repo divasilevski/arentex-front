@@ -57,3 +57,7 @@ export function screenMore(value) {
   if (!window) return true
   return window.innerWidth > value
 }
+
+export function generateId() {
+  return Date.now().toString(36) + Math.random().toString(36).substr(2)
+}

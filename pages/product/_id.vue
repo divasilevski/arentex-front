@@ -68,6 +68,16 @@ export default defineComponent({
         order: 1;
       }
     }
+
+    .product-category {
+      min-width: 300px;
+      width: fit-content;
+
+      @include mw(1024px) {
+        min-width: initial;
+        width: initial;
+      }
+    }
   }
 }
 </style>
